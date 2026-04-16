@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇯🇵 福岡慢活放鬆之旅 — 互動地圖</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  
+  #map { width: 100%; height: 100vh; }
+  
+  /* Floating panel */
+  .panel {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 1000;
+    background: rgba(255,255,255,0.96);
+    border-radius: 14px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    padding: 18px 20px;
+    max-width: 340px;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
+  }
+  .panel h1 {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .panel .subtitle {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 14px;
+  }
+  
+  /* Day filter buttons */
+  .day-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .day-btn {
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.45;
+    color: #fff;
+  }
+  .day-btn.active {
+    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .day-btn:hover { opacity: 0.85; }
+  
+  /* Legend */
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: background 0.15s;
+  }
+  .legend-item:hover { background: #f0f0f0; }
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-label { color: #333; }
+  .legend-type { color: #999; font-size: 11px; margin-left: auto; }
+  
+  .day-section {
+    margin-bottom: 12px;
+  }
+  .day-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid;
+  }
+  
+  /* Route lines */
+  .route-info {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 11px;
+    color: #999;
+  }
+
+  /* Custom popup */
+  .custom-popup .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  .custom-popup .leaflet-popup-content {
+    margin: 12px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .popup-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .popup-day {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .popup-type {
+    color: #888;
+    font-size: 12px;
+  }
+  .popup-desc {
+    margin-top: 6px;
+    color: #555;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .panel {
+      max-width: calc(100vw - 24px);
+      max-height: 45vh;
+      bottom: 12px;
+      top: auto;
+      left: 12px;
+      right: 12px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div class="panel">
+  <h1>🇯🇵 福岡慢活放鬆之旅</h1>
+  <div class="subtitle">2026年6月7日 — 6月11日 ｜ 夫妻二人行</div>
+  
+  <div class="day-filters" id="dayFilters"></div>
+  
+  <div id="legendContent"></div>
+  
+  <div class="route-info">
+    💡 點擊地圖標記查看詳情<br>
+    🔘 點擊日期按鈕篩選每日行程<br>
+    📍 虛線為當日建議路線
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ============================================
+// DATA: All locations grouped by day
+// ============================================
+const dayColors = {
+  1: '#FF6B6B',  // Day 1 - Coral red
+  2: '#4ECDC4',  // Day 2 - Teal
+  3: '#45B7D1',  // Day 3 - Sky blue
+  4: '#96CEB4',  // Day 4 - Sage green
+  5: '#DDA0DD',  // Day 5 - Plum
+};
+
+const dayLabels = {
+  1: 'Day 1 · 6/7 抵達',
+  2: 'Day 2 · 6/8 糸島',
+  3: 'Day 3 · 6/9 柳川',
+  4: 'Day 4 · 6/10 大濠',
+  5: 'Day 5 · 6/11 回程',
+};
+
+const locations = [
+  // ---- Day 1 ----
+  {
+    name: '福岡機場 (FUK)',
+    lat: 33.5859, lng: 130.4507,
+    day: 1, type: '✈️ 交通',
+    desc: 'CX 588 下午 15:30 抵達，搭地鐵機場線 10 分鐘到天神。'
+  },
+  {
+    name: 'THE GATE HOTEL FUKUOKA',
+    lat: 33.5897, lng: 130.3987,
+    day: 1, type: '🏨 酒店',
+    desc: '天神核心位置，19 樓大堂超靚景。18 樓免費 Lounge 7:00-22:00。Day 1 到步即歎免費咖啡 ☕'
+  },
+  {
+    name: '大名 (Daimyo) 散策',
+    lat: 33.5901, lng: 130.3932,
+    day: 1, type: '🛍️ 散步',
+    desc: '潮流小店、設計師品牌集中地。必逛 HUMAN MADE、nanamica、THE NORTH FACE 等潮牌。'
+  },
+  {
+    name: 'HUMAN MADE FUKUOKA',
+    lat: 33.5880, lng: 130.3951,
+    day: 1, type: '🛍️ 購物',
+    desc: 'NIGO 主理潮牌，大名區必逛人氣店。'
+  },
+  {
+    name: 'nanamica FUKUOKA',
+    lat: 33.5885, lng: 130.3938,
+    day: 1, type: '🛍️ 購物',
+    desc: '山系/城市戶外天花板，The North Face 紫標代工廠，質感極佳。'
+  },
+  {
+    name: 'THE NORTH FACE 福岡 (大名)',
+    lat: 33.5879, lng: 130.3942,
+    day: 1, type: '🛍️ 購物',
+    desc: '大名旗艦店，戶外服飾款式超齊全。'
+  },
+  {
+    name: 'ASAKO IWAYANAGI FUKUOKA 🍰',
+    lat: 33.5888, lng: 130.3953,
+    day: 1, type: '🍮 甜品',
+    desc: '東京殿堂級芭菲名店登陸福岡（大名 Garden City 內）。歎個頂級 Parfait 兼打卡，為旅行揭開序幕！'
+  },
+  {
+    name: 'Robata Hyakushiki（ろばた百式）🔥',
+    lat: 33.5878, lng: 130.4005,
+    day: 1, type: '🍽️ 晚餐',
+    desc: '福岡最人氣居酒屋！炉端燒名店。預算 ¥4,000-5,000/人。超難預約但每日保留 8 個 walk-in 位，建議 17:00 開店前排隊。必試炉端燒鮮魚、明太子玉子燒。'
+  },
+  {
+    name: '🏮 Parfaiteria beL (夜パフェ)',
+    lat: 33.5872, lng: 130.4001,
+    day: 1, type: '🍽️ 宵夜',
+    desc: '北海道發跡嘅夜間芭菲專門店。造型精緻，味道多層次，適合晚飯後歎甜品。'
+  },
+
+  // ---- Day 2: Itoshima ----
+  {
+    name: '☕ MANU COFFEE 大名店',
+    lat: 33.5905, lng: 130.3935,
+    day: 2, type: '☕ 早晨咖啡',
+    desc: '福岡街頭文化 × 精品咖啡。檸檬黃牆壁超有型，天神站步行 7 分鐘。出發糸島前嘆杯好咖啡！'
+  },
+  {
+    name: '櫻井二見浦（白色鳥居 + 夫婦岩）',
+    lat: 33.5620, lng: 130.1098,
+    day: 2, type: '⛩️ 景點',
+    desc: '糸島最 iconic 嘅景點！白色鳥居對住夫婦岩，影相超靚。'
+  },
+  {
+    name: '塚本鮮魚店',
+    lat: 33.5528, lng: 130.1450,
+    day: 2, type: '🍽️ 午餐',
+    desc: '鮮魚直送海鮮丼！Tabelog 高分，糸島必食名物。'
+  },
+  {
+    name: 'London Bus Cafe',
+    lat: 33.5621, lng: 130.1173,
+    day: 2, type: '☕ Cafe',
+    desc: '紅色雙層巴士 Cafe，面向大海，打卡一流。'
+  },
+  {
+    name: 'またいちの塩（花鹽工房）',
+    lat: 33.5541, lng: 130.0874,
+    day: 2, type: '🍮 甜品',
+    desc: '手工海鹽製造所。必食「花鹽布丁」，海邊食超 chill。'
+  },
+  {
+    name: '燒肉 田無羅 (Tamura)',
+    lat: 33.5885, lng: 130.3995,
+    day: 2, type: '🍽️ 晚餐',
+    desc: '精緻和牛燒肉（Tabelog ~3.7）。服務好，適合夫妻浪漫晚餐。必須預約。'
+  },
+  {
+    name: '🏮 天神屋台 小金ちゃん',
+    lat: 33.5916, lng: 130.3986,
+    day: 2, type: '🍽️ 宵夜',
+    desc: '天神屋台代表，炒拉麵（焼きラーメン）始祖。體驗博多最地道嘅夜生活。'
+  },
+
+  // ---- Day 3: Yanagawa + Hakozaki ----
+  {
+    name: '🏨 THE GATE HOTEL (出發)',
+    lat: 33.5897, lng: 130.3987,
+    day: 3, type: '🏨 酒店',
+    desc: '步行前往西鐵天神站搭特急到柳川。'
+  },
+  {
+    name: '☕ REC COFFEE 天神南店',
+    lat: 33.5862, lng: 130.3997,
+    day: 3, type: '☕ 早晨咖啡',
+    desc: '🏆 日本冠軍咖啡師主理！必試 Geisha Latte。渡邊通 5-1-19，天神南站步行 5 分鐘。'
+  },
+  {
+    name: '柳川遊船 乘船場',
+    lat: 33.1603, lng: 130.4070,
+    day: 3, type: '🛶 景點',
+    desc: '柳川川下り！船夫搖櫓穿過柳樹水道，6 月紫陽花開滿兩岸，超浪漫。約 70 分鐘。'
+  },
+  {
+    name: '若松屋（柳川鰻魚飯）',
+    lat: 33.1580, lng: 130.4110,
+    day: 3, type: '🍽️ 午餐',
+    desc: '柳川名物「蒸籠鰻魚飯」（Tabelog ~3.6）。鰻魚同飯用蒸籠蒸到香氣四溢。'
+  },
+  {
+    name: '御花（殿主邸庭園）',
+    lat: 33.1588, lng: 130.4132,
+    day: 3, type: '🏯 景點',
+    desc: '柳川藩主別邸。和式庭園非常寧靜，可以喺度飲抹茶食和菓子。'
+  },
+  {
+    name: '筥崎宮 紫陽花苑',
+    lat: 33.6190, lng: 130.4210,
+    day: 3, type: '🌺 賞花',
+    desc: '6 月限定！約 100 品種、3500 株紫陽花盛開。門票 ¥300，超值。'
+  },
+  {
+    name: 'ひょうたん寿司 (Hyotan Sushi)',
+    lat: 33.5900, lng: 130.3964,
+    day: 3, type: '🍽️ 晚餐',
+    desc: '天神壽司性價比之王（Tabelog ~3.6）。食材新鮮，但不設預約，要排隊。建議開店前 15 分鐘去。'
+  },
+  {
+    name: '🍜 ラーメン海鳴 中洲店',
+    lat: 33.5925, lng: 130.4078,
+    day: 3, type: '🍽️ 宵夜',
+    desc: 'Tabelog 3.65! 獨創魚介豚骨湯頭，福岡人深夜食堂首選。'
+  },
+
+  // ---- Day 4: Ohori Park ----
+  {
+    name: 'stock (Pain Stock x COFFEE) 🥐☕',
+    lat: 33.5895, lng: 130.3960,
+    day: 4, type: '🥐 早餐',
+    desc: '天神中央公園内。福岡 No.1 麵包店 Pain Stock 嘅聯乘店，必搶明太法國包配淺烘焙咖啡！'
+  },
+  {
+    name: "I'm donut? 福岡店 🍩",
+    lat: 33.5891, lng: 130.4025,
+    day: 4, type: '🍮 甜品',
+    desc: '超人氣生甜甜圈！就在天神中央公園旁。雖然要排隊但絕對值得。<strong>備選：OLGA le bon bon donuts</strong>'
+  },
+  {
+    name: 'OLGA le bon bon donuts 🍩',
+    lat: 33.5932, lng: 130.4111,
+    day: 4, type: '🍮 甜品',
+    desc: "長崎發跡甜甜圈名店。<strong>I'm donut? 嘅最佳備選</strong>。位於櫛田神社前，口感豐富且排隊時間通常較短。"
+  },
+  {
+    name: '大濠公園 (Ohori Park)',
+    lat: 33.5867, lng: 130.3775,
+    day: 4, type: '🌳 公園',
+    desc: '福岡市內綠洲。環湖步道 2 公里，散步超舒服。'
+  },
+  {
+    name: '🎾 THE CLUBHOUSE 網球店',
+    lat: 33.5855, lng: 130.3788,
+    day: 4, type: '🛍️ 購物',
+    desc: '獨立網球商店（草ヶ江 1-4-52）。On 昂跑網球鞋亞洲最齊，復古裝修。2024年12月新開 OFFLINE 空間。'
+  },
+  {
+    name: '大濠公園日本庭園',
+    lat: 33.5847, lng: 130.3773,
+    day: 4, type: '🏡 景點',
+    desc: '公園內嘅傳統日本庭園。門票 ¥250，環境非常寧靜，適合靜心。'
+  },
+  {
+    name: '福岡市美術館',
+    lat: 33.5863, lng: 130.3803,
+    day: 4, type: '🎨 藝術',
+    desc: '大濠公園旁邊。有草間彌生作品，室內有冷氣。6 月梅雨天最啱去。'
+  },
+  {
+    name: 'Pâtisserie au fil du jour 🍰',
+    lat: 33.5786, lng: 130.3872,
+    day: 4, type: '🍮 甜品',
+    desc: '福岡超人氣法式甜品店（位於櫻坂）。蒙布朗 (Mont Blanc) 同精緻法式蛋糕必試！'
+  },
+  {
+    name: 'FUGLEN FUKUOKA',
+    lat: 33.5840, lng: 130.4010,
+    day: 4, type: '☕ 下午茶',
+    desc: '挪威奧斯陸人氣咖啡品牌！北歐風淺烘焙咖啡。夜晚仲有 Espresso Martini。藥院站步行 5 分鐘。'
+  },
+  {
+    name: '越後屋 今泉本店',
+    lat: 33.5870, lng: 130.4020,
+    day: 4, type: '🍽️ 晚餐',
+    desc: '內臟鍋名店（Tabelog ~3.6）。京風味噌口味，內臟處理乾淨，口感軟糯。建議預約。'
+  },
+  {
+    name: '🍜 博多一雙 (Hakata Issou)',
+    lat: 33.5914, lng: 130.4205,
+    day: 4, type: '🍽️ 宵夜',
+    desc: '「卡布奇諾」般濃郁豚骨湯底，博多拉麵極致代表。'
+  },
+
+  // ---- Day 5: Departure ----
+  {
+    name: 'THE GATE HOTEL (出發)',
+    lat: 33.5897, lng: 130.3987,
+    day: 5, type: '🏨 酒店',
+    desc: '最後衝刺，買手信同食多餐！'
+  },
+  {
+    name: '☕ DACOMECCA（ダコメッカ）🥐 (Tabelog 3.66)',
+    lat: 33.5881, lng: 130.4155,
+    day: 5, type: '☕ 早晨咖啡',
+    desc: '福岡超人氣麵包店！博多站前 4-14-1。必買炭火烤香腸包、明太子法國包。08:00 開，建議早啲去！'
+  },
+  {
+    name: '牧のうどん (Tabelog 3.45)',
+    lat: 33.5912, lng: 130.3987,
+    day: 5, type: '🍽️ 午餐',
+    desc: '博多烏冬名店。麵條超軟滑，越食越多（因為會吸湯膨脹）。'
+  },
+];
+
+// ============================================
+// MAP SETUP
+// ============================================
+const map = L.map('map', {
+  center: [33.59, 130.40],
+  zoom: 13,
+  zoomControl: false
+});
+
+L.control.zoom({ position: 'topright' }).addTo(map);
+
+// Tile layer - clean style
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+  maxZoom: 19
+}).addTo(map);
+
+// ============================================
+// MARKERS & LAYERS
+// ============================================
+const dayLayers = {};
+const dayRouteLines = {};
+const allMarkers = [];
+
+// Create custom icon
+function createIcon(day, type) {
+  const color = dayColors[day];
+  let emoji = '📍';
+  if (type.includes('✈️')) emoji = '✈️';
+  else if (type.includes('🏨')) emoji = '🏨';
+  else if (type.includes('🍽️')) emoji = '🍽️';
+  else if (type.includes('☕')) emoji = '☕';
+  else if (type.includes('🍮')) emoji = '🍮';
+  else if (type.includes('🛍️')) emoji = '🛍️';
+  else if (type.includes('⛩️')) emoji = '⛩️';
+  else if (type.includes('🛶')) emoji = '🛶';
+  else if (type.includes('🌺')) emoji = '🌺';
+  else if (type.includes('🌳')) emoji = '🌳';
+  else if (type.includes('🎨')) emoji = '🎨';
+  else if (type.includes('🏡')) emoji = '🏡';
+  else if (type.includes('🏯')) emoji = '🏯';
+  
+  return L.divIcon({
+    className: '',
+    html: `<div style="
+      background: ${color};
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      border: 3px solid #fff;
+      cursor: pointer;
+      transition: transform 0.2s;
+    " onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">${emoji}</div>`,
+    iconSize: [34, 34],
+    iconAnchor: [17, 17],
+    popupAnchor: [0, -20]
+  });
+}
+
+// Create markers for each day
+for (let d = 1; d <= 5; d++) {
+  dayLayers[d] = L.layerGroup();
+  const dayLocs = locations.filter(l => l.day === d);
+  const routeCoords = [];
+  let totalDist = 0;
+  
+  dayLocs.forEach((loc, idx) => {
+    const marker = L.marker([loc.lat, loc.lng], {
+      icon: createIcon(loc.day, loc.type)
+    });
+    
+    // Calculate distance from previous point
+    let distInfo = '';
+    if (idx > 0) {
+      const prev = dayLocs[idx-1];
+      const d = calcDist(prev.lat, prev.lng, loc.lat, loc.lng);
+      totalDist += d;
+      distInfo = `<div style="color:#666; font-size:11px; margin-top:4px;">📏 距上一站: ${d.toFixed(1)} km</div>`;
+    }
+
+    marker.bindPopup(`
+      <div>
+        <div class="popup-day" style="background:${dayColors[loc.day]}">${dayLabels[loc.day]}</div>
+        <div class="popup-title">${loc.name}</div>
+        <div class="popup-type">${loc.type}</div>
+        <div class="popup-desc">${loc.desc}</div>
+        ${distInfo}
+      </div>
+    `, { className: 'custom-popup', maxWidth: 280 });
+    
+    marker.locData = loc;
+    dayLayers[d].addLayer(marker);
+    allMarkers.push(marker);
+    routeCoords.push([loc.lat, loc.lng]);
+  });
+  
+  // Route line for the day
+  if (routeCoords.length > 1) {
+    dayRouteLines[d] = L.polyline(routeCoords, {
+      color: dayColors[d],
+      weight: 3,
+      opacity: 0.5,
+      dashArray: '8, 8'
+    });
+    dayLayers[d].addLayer(dayRouteLines[d]);
+    dayRouteLines[d].totalDist = totalDist;
+  }
+  
+  dayLayers[d].addTo(map);
+}
+
+// Haversine distance
+function calcDist(lat1, lon1, lat2, lon2) {
+  const R = 6371; // km
+  const dLat = (lat2-lat1) * Math.PI / 180;
+  const dLon = (lon2-lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+// ============================================
+// DAY FILTER BUTTONS
+// ============================================
+const filtersDiv = document.getElementById('dayFilters');
+const activeDays = new Set([1, 2, 3, 4, 5]);
+
+// "All" button
+const allBtn = document.createElement('button');
+allBtn.className = 'day-btn active';
+allBtn.style.background = '#666';
+allBtn.textContent = '全部';
+allBtn.onclick = () => {
+  activeDays.clear();
+  for (let d = 1; d <= 5; d++) activeDays.add(d);
+  updateMapLayers();
+};
+filtersDiv.appendChild(allBtn);
+
+for (let d = 1; d <= 5; d++) {
+  const btn = document.createElement('button');
+  btn.className = 'day-btn active';
+  btn.style.background = dayColors[d];
+  btn.textContent = `Day ${d}`;
+  btn.dataset.day = d;
+  btn.onclick = () => {
+    // Solo mode: show only this day
+    activeDays.clear();
+    activeDays.add(d);
+    updateMapLayers();
+  };
+  filtersDiv.appendChild(btn);
+}
+
+function updateMapLayers() {
+  // Update buttons
+  document.querySelectorAll('.day-btn').forEach(btn => {
+    if (btn.textContent === '全部') {
+      btn.classList.toggle('active', activeDays.size === 5);
+    } else {
+      const d = parseInt(btn.dataset.day);
+      btn.classList.toggle('active', activeDays.has(d));
+    }
+  });
+  
+  // Update layers
+  for (let d = 1; d <= 5; d++) {
+    if (activeDays.has(d)) {
+      if (!map.hasLayer(dayLayers[d])) map.addLayer(dayLayers[d]);
+    } else {
+      if (map.hasLayer(dayLayers[d])) map.removeLayer(dayLayers[d]);
+    }
+  }
+  
+  // Update legend
+  renderLegend();
+  
+  // Fit bounds to visible markers
+  const visibleCoords = [];
+  allMarkers.forEach(m => {
+    if (activeDays.has(m.locData.day)) {
+      visibleCoords.push([m.locData.lat, m.locData.lng]);
+    }
+  });
+  if (visibleCoords.length > 0) {
+    map.fitBounds(visibleCoords, { padding: [60, 60], maxZoom: 14 });
+  }
+}
+
+// ============================================
+// LEGEND
+// ============================================
+const legendDiv = document.getElementById('legendContent');
+
+function renderLegend() {
+  legendDiv.innerHTML = '';
+  
+  for (let d = 1; d <= 5; d++) {
+    if (!activeDays.has(d)) continue;
+    
+    const section = document.createElement('div');
+    section.className = 'day-section';
+    
+    const title = document.createElement('div');
+    title.className = 'day-title';
+    title.style.borderBottomColor = dayColors[d];
+    title.style.color = dayColors[d];
+    title.textContent = dayLabels[d];
+    section.appendChild(title);
+    
+    const dayLocs = locations.filter(l => l.day === d);
+    dayLocs.forEach((loc, idx) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = `
+        <span class="legend-dot" style="background:${dayColors[d]}"></span>
+        <span class="legend-label">${loc.name}</span>
+        <span class="legend-type">${loc.type.split(' ')[0]}</span>
+      `;
+      item.onclick = () => {
+        // Find the marker and open popup
+        const targetMarker = allMarkers.find(m => m.locData === loc);
+        if (targetMarker) {
+          map.setView([loc.lat, loc.lng], 15, { animate: true });
+          targetMarker.openPopup();
+        }
+      };
+      section.appendChild(item);
+    });
+    
+    legendDiv.appendChild(section);
+  }
+}
+
+renderLegend();
+
+// ============================================
+// INITIAL UPDATE
+// ============================================
+updateMapLayers();
+</script>
+</body>
+</html>

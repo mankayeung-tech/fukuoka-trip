@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇯🇵 福岡慢活放鬆之旅 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --day1: #FF6B6B;
+    --day2: #4ECDC4;
+    --day3: #45B7D1;
+    --day4: #96CEB4;
+    --day5: #DDA0DD;
+    --bg: #fafafa;
+    --card: #ffffff;
+    --text: #2d3436;
+    --muted: #636e72;
+    --border: #eee;
+  }
+  
+  body {
+    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ===== HEADER ===== */
+  .hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+    animation: shimmer 8s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(5%, 5%); }
+  }
+  .hero h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .hero .subtitle {
+    font-size: 14px;
+    opacity: 0.85;
+    position: relative;
+  }
+  .hero .dates {
+    display: inline-flex;
+    gap: 12px;
+    margin-top: 16px;
+    position: relative;
+  }
+  .hero .date-chip {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .hero .map-link {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 24px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 24px;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .hero .map-link:hover {
+    background: rgba(255,255,255,0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  
+  /* ===== NAV TABS ===== */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--card);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    flex: 1;
+    min-width: 80px;
+    padding: 14px 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--text); }
+  .nav-tab .tab-day { font-size: 11px; display: block; margin-bottom: 2px; }
+  .nav-tab .tab-date { font-size: 10px; opacity: 0.6; }
+  
+  /* ===== SECTIONS ===== */
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 16px 100px;
+  }
+  
+  .day-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .day-section.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .day-header {
+    padding: 28px 0 16px;
+    text-align: center;
+  }
+  .day-header .day-badge {
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 20px;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .day-header h2 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .day-header .day-theme {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  
+  /* ===== TIMELINE ===== */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  
+  .event {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .event::before {
+    content: '';
+    position: absolute;
+    left: -22px;
+    top: 18px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: white;
+  }
+  
+  .event-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 16px 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-left: 4px solid;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .event-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+  
+  .event-time {
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0.6;
+    margin-bottom: 4px;
+  }
+  .event-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .event-title a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1.5px dashed rgba(0,0,0,0.2);
+    transition: all 0.15s;
+  }
+  .event-title a:hover {
+    border-bottom-color: #4285f4;
+    color: #4285f4;
+  }
+  .event-title a::after {
+    content: ' 📍';
+    font-size: 12px;
+    opacity: 0.5;
+  }
+  .restaurant-name a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1.5px dashed rgba(0,0,0,0.15);
+    transition: all 0.15s;
+  }
+  .restaurant-name a:hover {
+    border-bottom-color: #4285f4;
+    color: #4285f4;
+  }
+  .restaurant-name a::after {
+    content: ' 📍';
+    font-size: 11px;
+    opacity: 0.4;
+  }
+  .coffee-name a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1.5px dashed rgba(0,0,0,0.15);
+    transition: all 0.15s;
+  }
+  .coffee-name a:hover {
+    border-bottom-color: #4285f4;
+    color: #4285f4;
+  }
+  .coffee-name a::after {
+    content: ' 📍';
+    font-size: 11px;
+    opacity: 0.4;
+  }
+  .event-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .event-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .tag {
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+  }
+  .tag-coffee { background: #f0e6d3; color: #8B6914; }
+  .tag-food { background: #ffe8e8; color: #c0392b; }
+  .tag-sight { background: #e8f4fd; color: #2980b9; }
+  .tag-shop { background: #e8f8e8; color: #27ae60; }
+  .tag-transport { background: #f0f0f0; color: #636e72; }
+  .tag-warn { background: #fff3cd; color: #856404; }
+  .tag-hotel { background: #f3e5f5; color: #7b1fa2; }
+  
+  /* ===== INFO PANELS ===== */
+  .info-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .info-section.active { display: block; }
+  
+  .info-card {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 20px;
+    margin: 16px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .info-card h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .restaurant-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .restaurant-row:last-child { border-bottom: none; }
+  .restaurant-emoji {
+    font-size: 24px;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+  }
+  .restaurant-info { flex: 1; }
+  .restaurant-name { font-weight: 700; font-size: 14px; }
+  .restaurant-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .restaurant-rating {
+    font-size: 12px;
+    font-weight: 700;
+    color: #e67e22;
+    flex-shrink: 0;
+  }
+  
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    font-size: 13px;
+  }
+  .checklist-item input[type="checkbox"] {
+    margin-top: 3px;
+    accent-color: #667eea;
+    transform: scale(1.1);
+  }
+  
+  .coffee-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .coffee-row:last-child { border-bottom: none; }
+  .coffee-day {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .coffee-day span { font-size: 14px; }
+  .coffee-info { flex: 1; }
+  .coffee-name { font-weight: 700; font-size: 13px; }
+  .coffee-detail { font-size: 11px; color: var(--muted); }
+  
+  /* ===== FLIGHT CARD ===== */
+  .flight-card {
+    background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .flight-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+  }
+  .flight-row + .flight-row { border-top: 1px solid rgba(255,255,255,0.15); }
+  .flight-city { text-align: center; }
+  .flight-code { font-size: 24px; font-weight: 700; }
+  .flight-time { font-size: 12px; opacity: 0.7; }
+  .flight-middle { text-align: center; flex: 1; }
+  .flight-number { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.15); padding: 2px 10px; border-radius: 10px; }
+  .flight-arrow { font-size: 12px; opacity: 0.5; margin: 4px 0; }
+  .flight-duration { font-size: 10px; opacity: 0.5; }
+  
+  /* ===== WEATHER ===== */
+  .weather-card {
+    background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    margin: 16px 0;
+  }
+  .weather-temp { font-size: 36px; font-weight: 700; }
+  .weather-desc { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .weather-tips {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .weather-tip {
+    background: rgba(255,255,255,0.2);
+    padding: 4px 12px;
+    border-radius: 12px;
+  }
+  
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 22px; }
+    .container { padding: 0 12px 80px; }
+    .event-card { padding: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🇯🇵 福岡慢活放鬆之旅</h1>
+  <div class="subtitle">夫妻二人行 · 海景 🌊 · 紫陽花 🌺 · 藝術 🎨 · 精緻美食 🥩</div>
+  <div class="dates">
+    <span class="date-chip">✈️ CX 588 → 福岡</span>
+    <span class="date-chip">🏨 THE GATE HOTEL</span>
+    <span class="date-chip">🗓 6/7 – 6/11</span>
+  </div>
+  <div>
+    <a class="map-link" href="fukuoka-trip-map.html" target="_blank">🗺️ 打開互動地圖 →</a>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav" id="nav">
+  <div class="nav-tab active" data-target="day1" style="border-bottom-color: var(--day1)">
+    <span class="tab-day">Day 1</span>6/7 日<br><span class="tab-date">抵達</span>
+  </div>
+  <div class="nav-tab" data-target="day2">
+    <span class="tab-day">Day 2</span>6/8 一<br><span class="tab-date">糸島</span>
+  </div>
+  <div class="nav-tab" data-target="day3">
+    <span class="tab-day">Day 3</span>6/9 二<br><span class="tab-date">柳川</span>
+  </div>
+  <div class="nav-tab" data-target="day4">
+    <span class="tab-day">Day 4</span>6/10 三<br><span class="tab-date">大濠</span>
+  </div>
+  <div class="nav-tab" data-target="day5">
+    <span class="tab-day">Day 5</span>6/11 四<br><span class="tab-date">回程</span>
+  </div>
+  <div class="nav-tab" data-target="restaurants">
+    <span class="tab-day">🍽️</span>餐廳<br><span class="tab-date">清單</span>
+  </div>
+  <div class="nav-tab" data-target="nearby">
+    <span class="tab-day">🗺️</span>周邊<br><span class="tab-date">逛吃</span>
+  </div>
+  <div class="nav-tab" data-target="coffee">
+    <span class="tab-day">☕</span>咖啡<br><span class="tab-date">地圖</span>
+  </div>
+  <div class="nav-tab" data-target="info">
+    <span class="tab-day">📋</span>備忘<br><span class="tab-date">資訊</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ==================== DAY 1 ==================== -->
+<div class="day-section active" id="day1">
+  <div class="day-header">
+    <span class="day-badge" style="background: var(--day1)">DAY 1</span>
+    <h2>抵達福岡 · 質感大名散策</h2>
+    <div class="day-theme">6月7日（日）☀️</div>
+  </div>
+  <div class="timeline">
+    <div class="event"><div class="event-card" style="border-left-color: var(--day1)"><div class="event-time">15:30</div><div class="event-title"><a href="https://www.google.com/maps/search/Fukuoka+Airport+FUK" target="_blank">✈️ 抵達福岡機場</a></div><div class="event-desc">CX 588 降落！搭地鐵機場線往天神，約 10 分鐘。</div><div class="event-tags"><span class="tag tag-transport">🚇 地鐵 10 分鐘</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day1)"><div class="event-time">16:30</div><div class="event-title"><a href="https://www.google.com/maps/search/THE+GATE+HOTEL+FUKUOKA+by+HULIC" target="_blank">🏨 THE GATE HOTEL Check-in</a></div><div class="event-desc">19 樓大堂景觀超靚。去 18 樓免費 Lounge 歎杯咖啡休息，有免費果汁、茶同小食。</div><div class="event-tags"><span class="tag tag-hotel">🏨 19F 大堂</span><span class="tag tag-coffee">☕ 18F 免費 Lounge</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day1)"><div class="event-time">17:00</div><div class="event-title"><a href="https://www.google.com/maps/search/ASAKO+IWAYANAGI+FUKUOKA" target="_blank">🍰 ASAKO IWAYANAGI FUKUOKA (Tabelog 3.3+)</a></div><div class="event-desc">東京殿堂級芭菲名店登陸福岡（位於大名 Garden City）。歎個頂級 Parfait 兼打卡，為旅行揭開序幕！</div><div class="event-tags"><span class="tag tag-food">🍰 頂級芭菲</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day1)"><div class="event-time">18:00</div><div class="event-title"><a href="https://www.google.com/maps/search/大名+Daimyo+Fukuoka" target="_blank">🛍️ 大名 (Daimyo) 散策</a></div><div class="event-desc">潮流小店、設計師品牌集中地。必逛 HUMAN MADE、nanamica、THE NORTH FACE 等潮牌。比百貨公司更有質感。</div><div class="event-tags"><span class="tag tag-shop">🛍️ 步行即到</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day1)"><div class="event-time">19:30</div><div class="event-title"><a href="https://www.google.com/maps/search/ろばた百式+福岡+警固" target="_blank">🔥 Robata Hyakushiki（ろばた百式）(Tabelog 3.65)</a></div><div class="event-desc">福岡最人氣居酒屋！炉端燒名店，必試鮮魚、明太子玉子燒、地酒。預算約 ¥4,000–5,000/人。</div><div class="event-tags"><span class="tag tag-food">🍽️ 炉端燒</span><span class="tag tag-warn">⚠️ 超難訂！17:00 排 walk-in</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day1)"><div class="event-time">22:00</div><div class="event-title"><a href="https://www.google.com/maps/search/Parfaiteria+beL+福岡+今泉" target="_blank">🌙 宵夜：Parfaiteria beL (Tabelog 3.44)</a></div><div class="event-desc">北海道發跡嘅「夜パフェ」專門店。造型精美如藝術品，味道層次豐富，為第一晚劃上甜蜜句號。</div><div class="event-tags"><span class="tag tag-food">🍦 夜間芭菲</span><span class="tag tag-sight">📸 打卡</span></div></div></div>
+  </div>
+</div>
+
+<!-- ==================== DAY 2 ==================== -->
+<div class="day-section" id="day2">
+  <div class="day-header">
+    <span class="day-badge" style="background: var(--day2)">DAY 2</span>
+    <h2>糸島 (Itoshima) · 絕美海岸線</h2>
+    <div class="day-theme">6月8日（一）🌊</div>
+  </div>
+  <div class="timeline">
+    <div class="event"><div class="event-card" style="border-left-color: var(--day2)"><div class="event-time">08:30</div><div class="event-title"><a href="https://www.google.com/maps/search/MANU+COFFEE+大名店+福岡" target="_blank">☕ MANU COFFEE 大名店 (Tabelog 3.46)</a></div><div class="event-desc">福岡街頭文化 × 精品咖啡。檸檬黃牆壁超有型，出發糸島前嘆杯好咖啡。</div><div class="event-tags"><span class="tag tag-coffee">☕ 天神步行 7 分鐘</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day2)"><div class="event-time">09:30</div><div class="event-title"><a href="https://www.google.com/maps/search/糸島+Itoshima+Fukuoka" target="_blank">🚗 出發往糸島</a></div><div class="event-desc">建議租車或搭昭和巴士直達。車程約 40 分鐘。</div><div class="event-tags"><span class="tag tag-transport">🚗 租車 / 巴士 40 分鐘</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day2)"><div class="event-time">11:00</div><div class="event-title"><a href="https://www.google.com/maps/search/櫻井二見ヶ浦+糸島" target="_blank">⛩️ 櫻井二見浦（白色鳥居 + 夫婦岩）</a></div><div class="event-desc">糸島最 iconic 景點！白色鳥居對住夫婦岩，影相超靚。</div><div class="event-tags"><span class="tag tag-sight">📸 必打卡</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day2)"><div class="event-time">12:30</div><div class="event-title"><a href="https://www.google.com/maps/search/塚本鮮魚店+糸島" target="_blank">🐟 午餐：塚本鮮魚店 (Tabelog 3.48)</a></div><div class="event-desc">鮮魚直送海鮮丼！Tabelog ~3.5，糸島必食名物。排隊制。</div><div class="event-tags"><span class="tag tag-food">⭐ 3.48</span><span class="tag tag-warn">排隊制</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day2)"><div class="event-time">14:30</div><div class="event-title"><a href="https://www.google.com/maps/search/London+Bus+Cafe+糸島" target="_blank">🌴 椰子樹鞦韆 & London Bus Cafe</a></div><div class="event-desc">紅色雙層巴士 Cafe，面向大海。海邊鞦韆影相超靚。</div><div class="event-tags"><span class="tag tag-coffee">☕ 海景 Cafe</span><span class="tag tag-sight">📸 打卡</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day2)"><div class="event-time">16:00</div><div class="event-title"><a href="https://www.google.com/maps/search/またいちの塩+糸島" target="_blank">🧂 またいちの塩（花鹽工房）</a></div><div class="event-desc">手工海鹽製造所。必食「花鹽布丁」，海邊食超 chill。</div><div class="event-tags"><span class="tag tag-food">🍮 花鹽布丁</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day2)"><div class="event-time">19:30</div><div class="event-title"><a href="https://www.google.com/maps/search/焼肉+田無羅+福岡" target="_blank">🥩 晚餐：燒肉 田無羅 (Tamura) (Tabelog 3.72)</a></div><div class="event-desc">精緻 A5 和牛燒肉，服務極好，適合夫妻浪漫晚餐。</div><div class="event-tags"><span class="tag tag-food">⭐ 3.72</span><span class="tag tag-warn">✅ 必須預約</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day2)"><div class="event-time">22:00</div><div class="event-title"><a href="https://www.google.com/maps/search/天神屋台+小金ちゃん+福岡" target="_blank">🏮 宵夜：天神屋台 小金ちゃん (Tabelog 3.49)</a></div><div class="event-desc">福岡屋台文化代表。必試炒拉麵（焼きラーメン）始祖，體驗最地道嘅博多夜生活。</div><div class="event-tags"><span class="tag tag-food">🍜 炒拉麵始祖</span><span class="tag tag-sight">🏮 屋台體驗</span></div></div></div>
+  </div>
+</div>
+
+<!-- ==================== DAY 3 ==================== -->
+<div class="day-section" id="day3">
+  <div class="day-header">
+    <span class="day-badge" style="background: var(--day3)">DAY 3</span>
+    <h2>柳川水鄉 · 紫陽花祭</h2>
+    <div class="day-theme">6月9日（二）🛶</div>
+  </div>
+  <div class="timeline">
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">08:15</div><div class="event-title">🏨 從 THE GATE HOTEL 出發</div><div class="event-desc">準備前往柳川。</div><div class="event-tags"><span class="tag tag-hotel">🏨 步行至西鐵天神</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">08:30</div><div class="event-title"><a href="https://www.google.com/maps/search/REC+COFFEE+天神南店+福岡" target="_blank">☕ REC COFFEE 天神南店</a></div><div class="event-desc">🏆 日本冠軍咖啡師主理！必試 Geisha Latte（藝伎拿鐵）。</div><div class="event-tags"><span class="tag tag-coffee">🏆 冠軍咖啡</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">09:30</div><div class="event-title"><a href="https://www.google.com/maps/search/西鉄福岡天神駅" target="_blank">🚃 出發往柳川</a></div><div class="event-desc">西鐵天神大牟田線特急，約 50 分鐘。</div><div class="event-tags"><span class="tag tag-transport">🚃 西鐵特急 50 分鐘</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">10:30</div><div class="event-title"><a href="https://www.google.com/maps/search/柳川川下り+乗船場" target="_blank">🛶 柳川遊船（川下り）</a></div><div class="event-desc">船夫搖櫓穿過柳樹水道，6 月紫陽花開滿兩岸！約 70 分鐘，超浪漫超治癒。</div><div class="event-tags"><span class="tag tag-sight">🌺 繡球花季</span><span class="tag tag-sight">⏱ 70 分鐘</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">12:00</div><div class="event-title"><a href="https://www.google.com/maps/search/若松屋+柳川+鰻魚" target="_blank">🍱 午餐：若松屋 鰻魚飯 (Tabelog 3.61)</a></div><div class="event-desc">柳川名物「蒸籠鰻魚飯」（せいろ蒸し），鰻魚同飯蒸到香氣四溢。</div><div class="event-tags"><span class="tag tag-food">⭐ 3.61</span><span class="tag tag-food">🍱 柳川名物</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">13:30</div><div class="event-title"><a href="https://www.google.com/maps/search/柳川+御花+殿主邸" target="_blank">🏯 御花（殿主邸庭園）</a></div><div class="event-desc">柳川藩主別邸，和式庭園超靚。可以飲抹茶食和菓子。</div><div class="event-tags"><span class="tag tag-sight">🍵 抹茶體驗</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">15:30</div><div class="event-title"><a href="https://www.google.com/maps/search/筥崎宮+あじさい苑+福岡" target="_blank">🌺 筥崎宮 紫陽花苑</a></div><div class="event-desc">6 月限定！約 100 品種、3500 株紫陽花盛開。門票 ¥300，超值。</div><div class="event-tags"><span class="tag tag-sight">🌺 6 月限定</span><span class="tag tag-sight">💴 ¥300</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">19:00</div><div class="event-title"><a href="https://www.google.com/maps/search/ひょうたん寿司+天神+福岡" target="_blank">🍣 晚餐：ひょうたん寿司 (Tabelog 3.66)</a></div><div class="event-desc">天神壽司性價比之王！食材超新鮮。不設預約，開店前 15 分鐘排隊。</div><div class="event-tags"><span class="tag tag-food">⭐ 3.66</span><span class="tag tag-warn">排隊制 · 早 15 分鐘去</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day3)"><div class="event-time">22:30</div><div class="event-title"><a href="https://www.google.com/maps/search/ラーメン海鳴+中洲店" target="_blank">🍜 宵夜：ラーメン海鳴 中洲店 (Tabelog 3.65)</a></div><div class="event-desc">中洲地道最強！獨創「魚介豚骨」湯頭層次豐富，比一般拉麵更鮮美，係福岡人嘅深夜首選。</div><div class="event-tags"><span class="tag tag-food">🍜 魚介豚骨</span><span class="tag tag-food">🔥 當地人氣</span></div></div></div>
+  </div>
+</div>
+
+<!-- ==================== DAY 4 ==================== -->
+<div class="day-section" id="day4">
+  <div class="day-header">
+    <span class="day-badge" style="background: var(--day4)">DAY 4</span>
+    <h2>城市綠洲 · 湖畔慢時光</h2>
+    <div class="day-theme">6月10日（三）🎨</div>
+  </div>
+  <div class="timeline">
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">08:45</div><div class="event-title">🏨 從 THE GATE HOTEL 出發</div><div class="event-desc">散步去天神中央公園食早餐。</div><div class="event-tags"><span class="tag tag-hotel">🏨 步行 5 分鐘</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">09:00</div><div class="event-title"><a href="https://www.google.com/maps/search/stock+天神中央公園+Pain+Stock" target="_blank">🥐 stock (Pain Stock x COFFEE COUNTY) (Tabelog 3.55)</a></div><div class="event-desc">福岡 No.1 麵包店 Pain Stock 同咖啡店嘅聯乘！必搶「明太法國麵包 (Mentai France)」，外脆內軟明太子超足料，配埋淺烘焙咖啡，喺天神中央公園食一流早餐。</div><div class="event-tags"><span class="tag tag-food">🥐 必搶明太包</span><span class="tag tag-coffee">☕ 冠軍咖啡</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">09:45</div><div class="event-title"><a href="https://www.google.com/maps/search/I'm+donut?+福岡" target="_blank">🍩 I'm donut? 福岡店 (Tabelog 3.45)</a></div><div class="event-desc">超人氣「生甜甜圈」！就在天神中央公園旁。雖然要排隊但絕對值得。如果太多人，可以去 <strong>OLGA le bon bon donuts</strong> 作為備選。</div><div class="event-tags"><span class="tag tag-food">🍩 生甜甜圈</span><span class="tag tag-warn">⚠️ 人氣排隊店</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">10:15</div><div class="event-title"><a href="https://www.google.com/maps/search/大濠公園+Ohori+Park+Fukuoka" target="_blank">🌳 大濠公園 (Ohori Park)</a></div><div class="event-desc">福岡市內綠洲。環湖步道 2 公里，散步超舒服。</div><div class="event-tags"><span class="tag tag-sight">🚶 環湖 2km</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">10:45</div><div class="event-title"><a href="https://www.google.com/maps/search/THE+CLUBHOUSE+テニス+草ヶ江+福岡" target="_blank">🎾 THE CLUBHOUSE 網球店</a></div><div class="event-desc">大濠公園附近獨立網球商店。On 昂跑網球鞋亞洲最齊，復古裝修。新開 OFFLINE 空間。</div><div class="event-tags"><span class="tag tag-shop">🎾 草ヶ江 1-4-52</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">11:30</div><div class="event-title"><a href="https://www.google.com/maps/search/福岡市美術館+大濠公園" target="_blank">🎨 福岡市美術館</a></div><div class="event-desc">大濠公園旁邊。有草間彌生作品，室內有冷氣，6 月梅雨天最啱去。</div><div class="event-tags"><span class="tag tag-sight">🎨 當代藝術</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">13:00</div><div class="event-title">🍽️ 午餐</div><div class="event-desc">大濠公園周邊精緻餐廳或返回天神食。</div><div class="event-tags"><span class="tag tag-food">🍽️ 自由選擇</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">14:00</div><div class="event-title"><a href="https://www.google.com/maps/search/Patisserie+au+fil+du+jour+福岡" target="_blank">🍰 Pâtisserie au fil du jour (Tabelog 3.86)</a></div><div class="event-desc">福岡超人氣法式甜品店（位於櫻坂）。蒙布朗 (Mont Blanc) 同精緻法式蛋糕必試！</div><div class="event-tags"><span class="tag tag-food">🍰 必試甜品</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">15:00</div><div class="event-title"><a href="https://www.google.com/maps/search/FUGLEN+FUKUOKA+薬院" target="_blank">☕ FUGLEN FUKUOKA (Tabelog 3.52)</a></div><div class="event-desc">挪威奧斯陸人氣咖啡品牌！北歐風淺烘焙。夜晚仲有 Espresso Martini。</div><div class="event-tags"><span class="tag tag-coffee">🇳🇴 北歐品牌</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">19:00</div><div class="event-title"><a href="https://www.google.com/maps/search/越後屋+今泉+もつ鍋+福岡" target="_blank">🍲 晚餐：越後屋 今泉本店 (Tabelog 3.63)</a></div><div class="event-desc">內臟鍋名店！京風味噌口味，內臟處理超乾淨，口感軟糯。</div><div class="event-tags"><span class="tag tag-food">⭐ 3.63</span><span class="tag tag-warn">✅ 建議預約</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day4)"><div class="event-time">22:00</div><div class="event-title"><a href="https://www.google.com/maps/search/博多一雙+博多車站東本店" target="_blank">🍜 宵夜：博多一雙 (Tabelog 3.75)</a></div><div class="event-desc">被稱為「卡布奇諾」般嘅濃郁豚骨湯底，係博多拉麵中嘅極致代表。雖然要排隊，但絕對值得。</div><div class="event-tags"><span class="tag tag-food">🍜 濃郁豚骨</span><span class="tag tag-warn">排隊名店</span></div></div></div>
+  </div>
+</div>
+
+<!-- ==================== DAY 5 ==================== -->
+<div class="day-section" id="day5">
+  <div class="day-header">
+    <span class="day-badge" style="background: var(--day5)">DAY 5</span>
+    <h2>天神購物 · 依依不捨</h2>
+    <div class="day-theme">6月11日（四）🛫</div>
+  </div>
+  <div class="timeline">
+    <div class="event"><div class="event-card" style="border-left-color: var(--day5)"><div class="event-time">08:00</div><div class="event-title"><a href="https://www.google.com/maps/search/DACOMECCA+ダコメッカ+博多" target="_blank">🥐 DACOMECCA (Tabelog 3.66)</a></div><div class="event-desc">福岡超人氣麵包店！必買炭火烤香腸包、明太子法國包。比 Full Full 更好食！建議開店即到避開排隊。</div><div class="event-tags"><span class="tag tag-coffee">☕ + 🥐 早餐</span><span class="tag tag-warn">08:00 開店即去</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day5)"><div class="event-time">09:30</div><div class="event-title"><a href="https://www.google.com/maps/search/天神地下街+福岡" target="_blank">🛍️ 天神百貨掃貨</a></div><div class="event-desc">岩田屋、三越、PARCO、天神地下街。最後買和菓子手信、藥妝。</div><div class="event-tags"><span class="tag tag-shop">🛍️ 手信掃貨</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day5)"><div class="event-time">11:30</div><div class="event-title"><a href="https://www.google.com/maps/search/牧のうどん+天神+福岡" target="_blank"> Ramen：牧のうどん (Tabelog 3.45)</a></div><div class="event-desc">博多烏冬名店。麵條超軟滑，越食越多（因為會吸湯膨脹）。福岡獨有體驗。</div><div class="event-tags"><span class="tag tag-food">⭐ 3.45</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day5)"><div class="event-time">12:30</div><div class="event-title"><a href="https://www.google.com/maps/search/天神駅+地下鉄+福岡" target="_blank">🚇 出發往機場</a></div><div class="event-desc">天神搭地鐵到福岡機場，約 10 分鐘。</div><div class="event-tags"><span class="tag tag-transport">🚇 10 分鐘</span></div></div></div>
+    <div class="event"><div class="event-card" style="border-left-color: var(--day5)"><div class="event-time">14:10</div><div class="event-title"><a href="https://www.google.com/maps/search/Fukuoka+Airport+FUK" target="_blank">✈️ CX 513 起飛</a></div><div class="event-desc">飛返香港！預計 16:35 到達。多謝福岡，下次再見！🇯🇵</div><div class="event-tags"><span class="tag tag-transport">✈️ → HKG 16:35</span></div></div></div>
+  </div>
+</div>
+
+<!-- ==================== RESTAURANTS ==================== -->
+<div class="info-section" id="restaurants">
+  <div class="day-header">
+    <h2>🍽️ 餐廳清單</h2>
+    <div class="day-theme">附 Tabelog 評分 · 預約建議</div>
+  </div>
+  
+  <div class="info-card">
+    <h3>🔥 行程內餐廳</h3>
+    <div class="restaurant-row"><div class="restaurant-emoji">🔥</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/ろばた百式+福岡+警固" target="_blank">Robata Hyakushiki（ろばた百式）</a></div><div class="restaurant-meta">Day 1 晚 · 居酒屋 · ⚠️ 每日 8 個 walk-in 位</div></div><div class="restaurant-rating">⭐ 3.65</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🐟</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/塚本鮮魚店+糸島" target="_blank">塚本鮮魚店</a></div><div class="restaurant-meta">Day 2 午 · 海鮮丼 · 糸島 · 排隊制</div></div><div class="restaurant-rating">⭐ 3.48</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🥩</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/焼肉+田無羅+福岡" target="_blank">燒肉 田無羅 (Tamura)</a></div><div class="restaurant-meta">Day 2 晚 · 精緻燒肉 · ✅ 必須預約</div></div><div class="restaurant-rating">⭐ 3.72</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍱</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/若松屋+柳川+鰻魚" target="_blank">若松屋（柳川鰻魚飯）</a></div><div class="restaurant-meta">Day 3 午 · 蒸籠鰻魚飯 · 平日免預約</div></div><div class="restaurant-rating">⭐ 3.61</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍣</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/ひょうたん寿司+天神+福岡" target="_blank">ひょうたん寿司</a></div><div class="restaurant-meta">Day 3 晚 · 壽司 · 排隊制，開店前 15 分鐘去</div></div><div class="restaurant-rating">⭐ 3.66</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍲</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/越後屋+今泉+もつ鍋+福岡" target="_blank">越後屋 今泉本店</a></div><div class="restaurant-meta">Day 4 晚 · 内臟鍋 · ✅ 建議預約</div></div><div class="restaurant-rating">⭐ 3.63</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🥐</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/DACOMECCA+ダコメッカ+博多" target="_blank">DACOMECCA（ダコメッカ）</a></div><div class="restaurant-meta">Day 5 早 · 人氣麵包 · 08:00 開店即到</div></div><div class="restaurant-rating">⭐ 3.66</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍜</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/牧のうどん+天神+福岡" target="_blank">牧のうどん</a></div><div class="restaurant-meta">Day 5 午 · 博多烏冬 · 免預約</div></div><div class="restaurant-rating">⭐ 3.45</div></div>
+  </div>
+  
+  <div class="info-card">
+    <h3>🌟 備選替換餐廳</h3>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍲</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/水たき長野+福岡+中洲" target="_blank">水たき長野</a></div><div class="restaurant-meta">水炊鍋 · 創業 100 年 · 提前 1 個月電話預約</div></div><div class="restaurant-rating">⭐ T 3.73 / G 4.4</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍲</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/もつ鍋おおやま+KITTE博多" target="_blank">もつ鍋 おおやま</a></div><div class="restaurant-meta">内臟鍋 · KITTE 博多有分店</div></div><div class="restaurant-rating">⭐ T 3.48 / G 4.1</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🥩</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/焼肉チャンピオン+博多駅" target="_blank">燒肉 チャンピオン</a></div><div class="restaurant-meta">燒肉 · JR 博多城 10 樓</div></div><div class="restaurant-rating">⭐ T 3.58 / G 4.0</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍣</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/鮨さかい+福岡" target="_blank">鮨 さかい</a></div><div class="restaurant-meta">壽司 · 米芝蓮三星！提前 2-3 個月預約</div></div><div class="restaurant-rating">⭐ T 4.41 / G 4.6</div></div>
+
+    <div class="restaurant-row"><div class="restaurant-emoji">🍜</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/元祖長浜屋+福岡" target="_blank">元祖長浜屋 (Ganso Nagahamaya)</a></div><div class="restaurant-meta">博多拉麵之魂！簡單純粹嘅長濱風味</div></div><div class="restaurant-rating">⭐ T 3.55 / G 4.0</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍜</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/博多元氣一杯+福岡" target="_blank">博多元氣一杯 (Hakata Genki Ippai)</a></div><div class="restaurant-meta">傳奇極濃郁豚骨湯底 · 福岡拉麵天花板</div></div><div class="restaurant-rating">⭐ T 3.75 / G 4.3</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍜</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/ラーメン海鳴+中洲店" target="_blank">ラーメン海鳴 中洲店</a></div><div class="restaurant-meta">獨創魚介豚骨 · 中洲深夜最強首選</div></div><div class="restaurant-rating">⭐ T 3.65 / G 4.1</div></div>
+  </div>
+</div>
+
+<!-- ==================== NEARBY FOOD & SHOPPING ==================== -->
+<div class="info-section" id="nearby">
+  <div class="day-header">
+    <h2>🗺️ 周邊逛吃地圖</h2>
+    <div class="day-theme">按每日地區 · 潮牌 & 餐廳 & 小食推薦</div>
+  </div>
+
+  <!-- Day 1: Daimyo Shopping -->
+  <div class="info-card">
+    <h3>🛍️ 天神 · 大名 潮牌逛街地圖</h3>
+    <div style="font-size:12px; font-weight:700; color:var(--day1); margin:12px 0 6px;">👔 必行潮牌 (Day 1)</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🦍</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/HUMAN+MADE+FUKUOKA" target="_blank">HUMAN MADE FUKUOKA</a></div><div class="restaurant-meta">大名區必逛 · NIGO 主理超人氣潮牌 · 建議提早去避開人龍</div></div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🌊</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/nanamica+FUKUOKA" target="_blank">nanamica FUKUOKA</a></div><div class="restaurant-meta">山系/城市戶外天花板 · The North Face 紫標代工廠 · 質感極佳</div></div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🏔️</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/THE+NORTH+FACE+福岡+大名" target="_blank">THE NORTH FACE (大名)</a></div><div class="restaurant-meta">大名旗艦店 · 戶外服飾款式超齊 · 附近仲有 Supreme 同 BAPE</div></div></div>
+  </div>
+
+  <!-- Day 1 & 4: Tenjin / Daimyo / Imaizumi -->
+  <div class="info-card">
+    <h3>📍 天神 · 大名 · 今泉（Day 1 & 4）</h3>
+    
+    <div style="font-size:12px; font-weight:700; color:var(--day1); margin:12px 0 6px;">🍽️ 餐廳</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍢</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/ゆずの小町+天神大名+福岡" target="_blank">ゆずの小町 天神大名店</a></div><div class="restaurant-meta">柚子主題居酒屋 · 柚子鹽烤串超香 · 長濱市場鮮魚直送 · 100+ 酒無限暢飲</div></div><div class="restaurant-rating">⭐ T 3.10 / G 3.8</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🐟</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/海の路+天神+福岡" target="_blank">海の路 (Uminomichi)</a></div><div class="restaurant-meta">海鮮 × 日本酒專門 · 主廚每日親去漁港入貨 · 博多水炊鍋同內臟鍋都有</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.1</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🐔</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/とんこや+今泉+福岡" target="_blank">とんこや 今泉店 (Tonkoya)</a></div><div class="restaurant-meta">50 年老字號海鮮居酒屋 · 玄界灘鮮魚刺身 · 和牛內臟鍋 · 氣氛超放鬆</div></div><div class="restaurant-rating">⭐ T 3.30 / G 4.2</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍜</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/博多元氣一杯+福岡" target="_blank">博多元氣一杯 (Hakata Genki Ippai)</a></div><div class="restaurant-meta">傳奇拉麵！極濃郁奶油感豚骨湯底 · 福岡地道天花板</div></div><div class="restaurant-rating">⭐ T 3.75 / G 4.3</div></div>
+    
+    <div style="font-size:12px; font-weight:700; color:#e67e22; margin:16px 0 6px;">🍡 甜品 & 小食</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍩</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/I'm+donut?+福岡" target="_blank">I'm donut? 福岡店</a></div><div class="restaurant-meta">超人氣「生甜甜圈」· 天神中央公園旁 · 建議 09:30 前去</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.2</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍩</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/OLGA+le+bon+bon+donuts+博多" target="_blank">OLGA le bon bon donuts</a></div><div class="restaurant-meta">長崎發跡名店 · <strong>I'm donut? 嘅最佳備選</strong> · 位於櫛田神社前</div></div><div class="restaurant-rating">⭐ T 3.50 / G 4.3</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍰</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/ASAKO+IWAYANAGI+FUKUOKA" target="_blank">ASAKO IWAYANAGI FUKUOKA</a></div><div class="restaurant-meta">東京殿堂級芭菲名店 · 大名 Garden City 內 · 必試珠寶般嘅 Parfait</div></div><div class="restaurant-rating">⭐ T 3.33 / G 4.0</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍰</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/キルフェボン+福岡+天神" target="_blank">Quil Fait Bon 天神店</a></div><div class="restaurant-meta">法式水果塔名店 · 季節限定塔超靚</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.2</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍫</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/green+bean+to+bar+chocolate+福岡+今泉" target="_blank">Green Bean to Bar Chocolate</a></div><div class="restaurant-meta">Bean-to-Bar 朱古力專門 · 熱朱古力 + 現烤 Brownie</div></div><div class="restaurant-rating">⭐ T 3.50 / G 4.5</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🐟</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/博多ひいらぎ+鯛焼+大名+福岡" target="_blank">博多ひいらぎ 鯛燒（大名）</a></div><div class="restaurant-meta">酥脆紅豆鯛魚燒 · 仲有雪糕鯛魚燒 · 大名散步必食</div></div><div class="restaurant-rating">⭐ T 3.65 / G 4.4</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🌙</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Parfaiteria+beL+福岡+今泉" target="_blank">Parfaiteria beL（夜パフェ專門）</a></div><div class="restaurant-meta">夜間限定巴菲專門店！ · 精美造型 + 微酒精 · 食完晚飯後嘅甜品首選</div></div><div class="restaurant-rating">⭐ T 3.44 / G 3.9</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍵</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/よろず+赤坂+福岡" target="_blank">よろず (Yorozu)（赤坂）</a></div><div class="restaurant-meta">日本茶 × 雞尾酒吧 · 九州茶葉精選 · 環境超靚 · 建議預約</div></div><div class="restaurant-rating">⭐ T 3.60 / G 4.1</div></div>
+  </div>
+
+  <!-- Day 2: Itoshima -->
+  <div class="info-card">
+    <h3>📍 糸島 Itoshima（Day 2）</h3>
+    
+    <div style="font-size:12px; font-weight:700; color:var(--day2); margin:12px 0 6px;">🍽️ 餐廳</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍔</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/CxYJyx7bzQkgqiSy7" target="_blank">GooFy（芥屋漢堡）</a></div><div class="restaurant-meta">糸島名物漢堡 · 自家製包外酥內軟 · 位於芥屋海邊</div></div><div class="restaurant-rating">⭐ T 3.10 / G 4.3</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍕</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/dwmBkycFctWq2gvi7" target="_blank">TIME @ Ito Highland</a></div><div class="restaurant-meta">山頂全景 Cafe · 披薩同芭菲好食 · 邊食邊睇糸島全景</div></div><div class="restaurant-rating">⭐ T 3.25 / G 4.0</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🏖️</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/qUdyHpjVGZs4Thjt6" target="_blank">PALM BEACH</a></div><div class="restaurant-meta">海景餐廳綜合區 · 糸島風情一站式</div></div><div class="restaurant-rating">⭐ T 3.30 / G 3.8</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🐟</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/MS1N4Q73fVbJB9Da6" target="_blank">糸島食堂 本店</a></div><div class="restaurant-meta">新鮮海產食堂 · 本地人最愛 · 經常排隊</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.2</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍝</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/RjajzDso4NwrJyQ7A" target="_blank">ウッチーノ食堂</a></div><div class="restaurant-meta">大量糸島食材 · 創意意式料理 · 遠離觀光區</div></div><div class="restaurant-rating">⭐ T 3.20 / G 4.1</div></div>
+    
+    <div style="font-size:12px; font-weight:700; color:#e67e22; margin:16px 0 6px;">🍡 甜品 & 小食</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🧂</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/またいちの塩+糸島" target="_blank">またいちの塩（花鹽布丁）</a></div><div class="restaurant-meta">已排入行程 · 海邊食花鹽布丁 · 超 chill</div></div><div class="restaurant-rating">⭐ T 3.52 / G 4.3</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍦</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/伊都きんぐ+糸島" target="_blank">伊都きんぐ（草莓大福）</a></div><div class="restaurant-meta">糸島產 Amaou 草莓大福 · 路過必買</div></div><div class="restaurant-rating">⭐ T 3.40 / G 4.1</div></div>
+  </div>
+  
+  <!-- Day 3: Yanagawa + Hakozaki -->
+  <div class="info-card">
+    <h3>📍 柳川 · 筥崎（Day 3）</h3>
+    
+    <div style="font-size:12px; font-weight:700; color:var(--day3); margin:12px 0 6px;">🍽️ 餐廳</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍱</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/元祖本吉屋+柳川" target="_blank">元祖本吉屋（柳川）</a></div><div class="restaurant-meta">若松屋替代 · 柳川另一間鰻魚飯名店 · 假日建議預約</div></div><div class="restaurant-rating">⭐ T 3.65 / G 4.0</div></div>
+    
+    <div style="font-size:12px; font-weight:700; color:#e67e22; margin:16px 0 6px;">🍡 柳川名物小食</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍡</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/柳川+よりみち+団子" target="_blank">柳川下船場附近丸子店</a></div><div class="restaurant-meta">遊船落船後必食 · 烤丸子（醬油味 / 紅豆味）· 路邊小店</div></div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍘</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/柳川+せんべい+土産" target="_blank">柳川煎餅 / 手信</a></div><div class="restaurant-meta">柳川特產 · 御花附近有幾間手信店</div></div></div>
+  </div>
+
+  <!-- Day 4: Ohori / Ropponmatsu / Yakuin -->
+  <div class="info-card">
+    <h3>📍 大濠 · 六本松 · 藥院（Day 4）</h3>
+    
+    <div style="font-size:12px; font-weight:700; color:var(--day4); margin:12px 0 6px;">🍽️ 餐廳 & Cafe</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🥐</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Amam+Dacotan+六本松+福岡" target="_blank">Amam Dacotan（六本松）</a></div><div class="restaurant-meta">福岡人氣第一麵包店！ · 六本松站步行 3 分鐘</div></div><div class="restaurant-rating">⭐ T 3.75 / G 4.3</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">☕</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Coffee+Man+六本松+福岡" target="_blank">Coffee Man（六本松）</a></div><div class="restaurant-meta">世界烘豆冠軍 · 就喺 Amam Dacotan 對面</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.6</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🎂</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/パティスリー+ジョルジュマルソー+渡辺通+福岡" target="_blank">Patisserie Georges Marceau</a></div><div class="restaurant-meta">法日融合甜品 · 草莓蛋糕 + 開心果三角蛋糕</div></div><div class="restaurant-rating">⭐ T 3.60 / G 4.4</div></div>
+    
+    <div style="font-size:12px; font-weight:700; color:#e67e22; margin:16px 0 6px;">🍡 甜品 & 小食</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍰</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Patisserie+au+fil+du+jour+福岡" target="_blank">Pâtisserie au fil du jour</a></div><div class="restaurant-meta">福岡 Top 法式甜品（櫻坂） · 蒙布朗極出名</div></div><div class="restaurant-rating">⭐ T 3.86 / G 4.3</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍓</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Prince+of+the+Fruit+薬院+福岡" target="_blank">Prince of the Fruit（藥院）</a></div><div class="restaurant-meta">水果巴菲名店 · Amaou 草莓巴菲超靚 · 只收現金</div></div><div class="restaurant-rating">⭐ T 3.60 / G 4.1</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">☕</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Cafe+Marugo+薬院+福岡" target="_blank">Cafe Marugo（藥院）</a></div><div class="restaurant-meta">木質調氛圍 · 巴斯克芝士蛋糕 + 手冲咖啡</div></div><div class="restaurant-rating">⭐ T 3.30 / G 4.5</div></div>
+  </div>
+
+  <!-- Day 5: Hakata Station -->
+  <div class="info-card">
+    <h3>📍 博多站 · 天神（Day 5 出發前）</h3>
+    
+    <div style="font-size:12px; font-weight:700; color:var(--day5); margin:12px 0 6px;">🥖 必食麵包（Pain Stock 備選）</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🥖</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/THE+FULL+FULL+HAKATA+キャナルシティ" target="_blank">THE FULL FULL HAKATA</a></div><div class="restaurant-meta">明太法國包名店 · 如果 Day 4 冇去 Pain Stock 可補中</div></div><div class="restaurant-rating">⭐ T 3.30 / G 4.1</div></div>
+
+    <div style="font-size:12px; font-weight:700; color:var(--day5); margin:16px 0 6px;">🎁 手信 & 甜品（機場前最後衝刺）</div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍡</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/鈴懸+博多+すずかけ" target="_blank">鈴懸 (Suzukake) 博多本店</a></div><div class="restaurant-meta">日本和菓子名店 · 草莓大福超正 · 需排隊</div></div><div class="restaurant-rating">⭐ T 3.75 / G 4.4</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍫</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/チョコレートショップ+博多の石畳+博多駅" target="_blank">Chocolate Shop 博多の石畳</a></div><div class="restaurant-meta">博多站 Amu Plaza · 入口即化朱古力蛋糕</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.0</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍓</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Campbell+Early+アミュプラザ博多" target="_blank">Campbell Early（博多站 9F）</a></div><div class="restaurant-meta">Amaou 草莓芭菲 + 鬆餅 · 有城市景觀</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.1</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍡</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/石村萬盛堂+博多" target="_blank">石村萬盛堂 (Ishimura Manseido)</a></div><div class="restaurant-meta">百年老店 · 「鶴之子」棉花糖甜品</div></div><div class="restaurant-rating">⭐ T 3.30 / G 4.3</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍓</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/寿水庵+博多駅前+大福" target="_blank">壽水庵 博多站前本店</a></div><div class="restaurant-meta">草莓大福超人氣 · 水果大福即日鮮製 · Google ⭐ 4.5 · 買返酒店食</div></div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍵</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/光安製茶園+博多+祇園" target="_blank">光安製茶園 (Mitsuyasu Seikaen)</a></div><div class="restaurant-meta">正宗玉露 + 抹茶體驗 · 古樸茶屋</div></div><div class="restaurant-rating">⭐ T 3.40 / G 4.7</div></div>
+  </div>
+</div>
+
+<!-- ==================== COFFEE ==================== -->
+<div class="info-section" id="coffee">
+  <div class="day-header">
+    <h2>☕ 每日咖啡推薦</h2>
+    <div class="day-theme">每朝一杯 · 精品咖啡之旅</div>
+  </div>
+  <div class="info-card">
+    <div class="coffee-row"><div class="coffee-day" style="background: var(--day1)"><span>1</span>6/7</div><div class="coffee-info"><div class="coffee-name"><a href="https://www.google.com/maps/search/THE+GATE+HOTEL+FUKUOKA+by+HULIC" target="_blank">酒店 18F Lounge</a></div><div class="coffee-detail">免費咖啡、茶、果汁 · 下午到步先歎下</div></div></div>
+    <div class="coffee-row"><div class="coffee-day" style="background: var(--day2)"><span>2</span>6/8</div><div class="coffee-info"><div class="coffee-name"><a href="https://www.google.com/maps/search/MANU+COFFEE+大名店+福岡" target="_blank">MANU COFFEE 大名店 (T 3.46)</a></div><div class="coffee-detail">街頭文化 × 精品咖啡 · 檸檬黃牆超有型 · 天神步行 7 分鐘</div></div></div>
+    <div class="coffee-row"><div class="coffee-day" style="background: var(--day3)"><span>3</span>6/9</div><div class="coffee-info"><div class="coffee-name"><a href="https://www.google.com/maps/search/REC+COFFEE+天神南店+福岡" target="_blank">🏆 REC COFFEE 天神南店</a></div><div class="coffee-detail">日本冠軍咖啡師！必試 Geisha Latte · 天神南站步行 5 分鐘</div></div></div>
+    <div class="coffee-row"><div class="coffee-day" style="background: var(--day4)"><span>4</span>6/10</div><div class="coffee-info"><div class="coffee-name"><a href="https://www.google.com/maps/search/stock+天神中央公園+Pain+Stock" target="_blank">stock (Pain Stock) 🥐☕ (T 3.55)</a></div><div class="coffee-detail">Pain Stock 明太包 × 淺烘焙咖啡 · 天神中央公園內</div></div></div>
+    <div class="coffee-row"><div class="coffee-day" style="background: var(--day5)"><span>5</span>6/11</div><div class="coffee-info"><div class="coffee-name"><a href="https://www.google.com/maps/search/DACOMECCA+ダコメッカ+博多" target="_blank">DACOMECCA 🥐</a></div><div class="coffee-detail">人氣麵包 + 咖啡一次搞掂 · 博多站前 · 08:00 開</div></div></div>
+  </div>
+  <div class="info-card">
+    <h3>🌟 其他推薦（備選）</h3>
+    <div class="restaurant-row"><div class="restaurant-emoji">🇳🇴</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/FUGLEN+FUKUOKA+薬院" target="_blank">FUGLEN FUKUOKA</a></div><div class="restaurant-meta">挪威奧斯陸人氣品牌 · 北歐淺烘焙 · 藥院站步行 5 分鐘</div></div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🫘</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/THE+LOCAL+COFFEE+STAND+大名+福岡" target="_blank">THE LOCAL COFFEE STAND</a></div><div class="restaurant-meta">每月換豆 · 4 種單品對比品嘗 · 赤坂站步行 5 分鐘</div></div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🎧</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Stereo+Coffee+福岡" target="_blank">Stereo Coffee</a></div><div class="restaurant-meta">福岡最潮自家烘焙 · 天神區</div></div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🏆</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/豆香洞コーヒー+白木原" target="_blank">豆香洞コーヒー</a></div><div class="restaurant-meta">世界烘焙大賽冠軍主理 · 大野城市（較遠）</div></div></div>
+  </div>
+</div>
+
+<!-- ==================== INFO ==================== -->
+<div class="info-section" id="info">
+  <div class="day-header">
+    <h2>📋 旅行備忘</h2>
+    <div class="day-theme">航班 · 天氣 · Checklist</div>
+  </div>
+  
+  <div class="flight-card">
+    <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; opacity: 0.7;">✈️ 航班資訊</div>
+    <div class="flight-row">
+      <div class="flight-city"><div class="flight-code">HKG</div><div class="flight-time">11:00</div></div>
+      <div class="flight-middle"><div class="flight-number">CX 588</div><div class="flight-arrow">───✈️──→</div><div class="flight-duration">約 3.5 小時</div></div>
+      <div class="flight-city"><div class="flight-code">FUK</div><div class="flight-time">15:30</div></div>
+    </div>
+    <div class="flight-row">
+      <div class="flight-city"><div class="flight-code">FUK</div><div class="flight-time">14:10</div></div>
+      <div class="flight-middle"><div class="flight-number">CX 513</div><div class="flight-arrow">───✈️──→</div><div class="flight-duration">約 4 小時</div></div>
+      <div class="flight-city"><div class="flight-code">HKG</div><div class="flight-time">16:35</div></div>
+    </div>
+  </div>
+  
+  <div class="weather-card">
+    <div>☁️ 6 月福岡天氣</div>
+    <div class="weather-temp">22°– 28°C</div>
+    <div class="weather-desc">梅雨季 · 預計有雨日</div>
+    <div class="weather-tips">
+      <span class="weather-tip">☂️ 摺疊雨傘</span>
+      <span class="weather-tip">👕 輕便透氣</span>
+      <span class="weather-tip">👟 舒適行路鞋</span>
+    </div>
+  </div>
+  
+  <div class="info-card">
+    <h3>📋 出行 Checklist</h3>
+    <div class="checklist-item"><input type="checkbox"><span>護照有效期 6 個月以上</span></div>
+    <div class="checklist-item"><input type="checkbox"><span>日圓現金（建議帶 10-15 萬日圓）</span></div>
+    <div class="checklist-item"><input type="checkbox"><span>下載 Suica / ICOCA 交通卡（Apple Wallet）</span></div>
+    <div class="checklist-item"><input type="checkbox"><span>預約 <strong>燒肉 田無羅</strong></span></div>
+    <div class="checklist-item"><input type="checkbox"><span>預約 <strong>越後屋</strong> 內臟鍋</span></div>
+    <div class="checklist-item"><input type="checkbox"><span><strong>Robata 百式</strong> — Day 1 下午 17:00 前排 walk-in</span></div>
+    <div class="checklist-item"><input type="checkbox"><span><strong>ひょうたん寿司</strong> — 開店前 15 分鐘排隊</span></div>
+    <div class="checklist-item"><input type="checkbox"><span><strong>DACOMECCA</strong> — 08:00 開店即到</span></div>
+    <div class="checklist-item"><input type="checkbox"><span>糸島租車（Times Car / Toyota Rent-a-Car）</span></div>
+    <div class="checklist-item"><input type="checkbox"><span>帶雨傘 / 雨衣（6 月梅雨季）</span></div>
+    <div class="checklist-item"><input type="checkbox"><span>酒店 22:00 後需房卡搭電梯</span></div>
+    <div class="checklist-item"><input type="checkbox"><span>帶環保袋裝手信</span></div>
+    <div class="checklist-item"><input type="checkbox"><span>Email 酒店 concierge 幫手訂餐廳</span></div>
+  </div>
+  
+  <div class="info-card">
+    <h3>💰 實際開支紀錄</h3>
+    <div class="restaurant-row"><div class="restaurant-emoji">✈️</div><div class="restaurant-info"><div class="restaurant-name">機票 (Flight Ticket)</div></div><div class="restaurant-rating">$1,770.00</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🛡️</div><div class="restaurant-info"><div class="restaurant-name">旅遊保險 (Travel Insurance)</div></div><div class="restaurant-rating">$316.72</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🏨</div><div class="restaurant-info"><div class="restaurant-name">酒店 (Hotel - THE GATE)</div></div><div class="restaurant-rating">$7,543.04</div></div>
+    <div class="restaurant-row" style="border-top: 2px solid var(--border); margin-top: 8px; padding-top: 12px;"><div class="restaurant-emoji">📊</div><div class="restaurant-info"><div class="restaurant-name" style="font-weight: 800;">目前總開支 (Total)</div></div><div class="restaurant-rating" style="color: var(--day1); font-size: 16px;">$9,629.76</div></div>
+  </div>
+
+  <div class="info-card">
+    <h3>💰 預算參考（二人 · 港幣）</h3>
+    <div class="restaurant-row"><div class="restaurant-emoji">✈️</div><div class="restaurant-info"><div class="restaurant-name">機票 CX 來回 × 2</div></div><div class="restaurant-rating">$6K–$16K</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🏨</div><div class="restaurant-info"><div class="restaurant-name">酒店 4 晚</div></div><div class="restaurant-rating">$5K–$8K</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🍽️</div><div class="restaurant-info"><div class="restaurant-name">餐飲（4 日）</div></div><div class="restaurant-rating">$4K–$6K</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🚃</div><div class="restaurant-info"><div class="restaurant-name">交通（地鐵/租車）</div></div><div class="restaurant-rating">$800–$1.5K</div></div>
+    <div class="restaurant-row"><div class="restaurant-emoji">🛍️</div><div class="restaurant-info"><div class="restaurant-name">購物 / 手信</div></div><div class="restaurant-rating">因人而異</div></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// Tab navigation
+const tabs = document.querySelectorAll('.nav-tab');
+const daySections = document.querySelectorAll('.day-section');
+const infoSections = document.querySelectorAll('.info-section');
+const dayColors = { day1: '#FF6B6B', day2: '#4ECDC4', day3: '#45B7D1', day4: '#96CEB4', day5: '#DDA0DD', restaurants: '#e67e22', nearby: '#e74c3c', coffee: '#8B6914', info: '#667eea' };
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.target;
+    
+    // Update tabs
+    tabs.forEach(t => {
+      t.classList.remove('active');
+      t.style.borderBottomColor = 'transparent';
+    });
+    tab.classList.add('active');
+    tab.style.borderBottomColor = dayColors[target] || '#667eea';
+    
+    // Show correct section
+    daySections.forEach(s => s.classList.remove('active'));
+    infoSections.forEach(s => s.classList.remove('active'));
+    
+    const dayEl = document.getElementById(target);
+    if (dayEl) dayEl.classList.add('active');
+  });
+});
+
+// Set initial active tab color
+tabs[0].style.borderBottomColor = dayColors.day1;
+
+// Timeline dot colors
+document.querySelectorAll('.event').forEach(event => {
+  const card = event.querySelector('.event-card');
+  if (card) {
+    const color = card.style.borderLeftColor;
+    event.style.setProperty('--dot-color', color);
+    const before = event.querySelector('::before');
+  }
+});
+
+// Style timeline dots to match day color
+const style = document.createElement('style');
+let dotStyles = '';
+[['day1','--day1'],['day2','--day2'],['day3','--day3'],['day4','--day4'],['day5','--day5']].forEach(([id, v]) => {
+  dotStyles += `#${id} .event::before { border-color: var(${v}); }\n`;
+});
+style.textContent = dotStyles;
+document.head.appendChild(style);
+</script>
+</body>
+</html>

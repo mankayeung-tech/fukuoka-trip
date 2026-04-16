@@ -1,0 +1,24 @@
+name = "fukuoka-trip"
+type = "javascript"
+account_id = "051580744c241fe5d2b5be444acbac0d"
+workers_dev = true
+route = ""
+zone_id = ""
+main = "index.html"
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[[routes]]
+pattern = "/*.html"
+zone_name = ""
+
+[build]
+command = "echo Building fukuoka-trip"
+cwd = ""
+
+[build.upload]
+format = "modules"
+main = "./index.html"
+
+[env.production.routes]
