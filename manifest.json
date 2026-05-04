@@ -1,0 +1,15 @@
+{
+  "name": "福岡慢活放鬆之旅 2026",
+  "short_name": "福岡之旅",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#e5e7eb",
+  "theme_color": "#f1d27a",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "2304x1406",
+      "type": "image/png"
+    }
+  ]
+}
