@@ -4,136 +4,143 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🇯🇵 福岡慢活放鬆之旅 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
-  
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  
+
   :root {
-    --day1: #FF6B6B;
-    --day2: #4ECDC4;
-    --day3: #45B7D1;
-    --day4: #96CEB4;
-    --day5: #DDA0DD;
-    --bg: #fafafa;
+    /* Vacation® Palette */
+    --day1: #d1796d;
+    --day2: #23659f;
+    --day3: #39aaa7;
+    --day4: #f1d27a;
+    --day5: #778899;
+    --bg: #e5e7eb;
     --card: #ffffff;
-    --text: #2d3436;
-    --muted: #636e72;
-    --border: #eee;
+    --text: #333333;
+    --muted: #6a6966;
+    --border: #dddddd;
+    --accent: #f1d27a;
+    --ocean: #23659f;
+    --coral: #d1796d;
+    --teal: #39aaa7;
+    --slate: #778899;
+    --parchment: #e5e7eb;
+    --ash: #b0c4de;
+    --shadow-inset: rgba(0, 0, 0, 0.5) -2px -2px 0px 0px inset;
+    --shadow-subtle: rgba(0, 0, 0, 0.75) 0px 1.5px 1.5px 0px;
   }
-  
+
   body {
-    font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Noto Sans TC', 'Helvetica Neue', Arial, sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* ===== HEADER ===== */
+  /* ===== HERO ===== */
   .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 48px 24px 40px;
+    background: var(--accent);
+    color: var(--text);
+    padding: 56px 24px 44px;
     text-align: center;
     position: relative;
     overflow: hidden;
   }
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
-    animation: shimmer 8s ease-in-out infinite;
-  }
-  @keyframes shimmer {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(5%, 5%); }
-  }
   .hero h1 {
-    font-size: 28px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 34px;
     font-weight: 700;
     margin-bottom: 8px;
-    position: relative;
+    letter-spacing: -0.972px;
+    line-height: 1.1;
   }
   .hero .subtitle {
-    font-size: 14px;
-    opacity: 0.85;
-    position: relative;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 15px;
+    font-style: italic;
+    opacity: 0.75;
+    margin-top: 4px;
   }
   .hero .dates {
     display: inline-flex;
-    gap: 12px;
-    margin-top: 16px;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
     position: relative;
   }
   .hero .date-chip {
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 6px 16px;
+    background: var(--card);
+    border-radius: 9999px;
+    padding: 6px 18px;
     font-size: 13px;
     font-weight: 500;
+    box-shadow: var(--shadow-subtle);
   }
   .hero .map-link {
     display: inline-block;
-    margin-top: 14px;
-    padding: 10px 24px;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    border: 1.5px solid rgba(255,255,255,0.4);
-    border-radius: 24px;
-    color: white;
-    font-size: 13px;
+    margin-top: 20px;
+    padding: 10px 30px;
+    background: var(--text);
+    border-radius: 9999px;
+    color: var(--accent);
+    font-size: 14px;
     font-weight: 600;
     text-decoration: none;
+    box-shadow: var(--shadow-subtle);
     transition: all 0.2s;
-    position: relative;
   }
   .hero .map-link:hover {
-    background: rgba(255,255,255,0.35);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    box-shadow: rgba(0,0,0,0.75) 0px 3px 6px 0px;
   }
-  
+
   /* ===== NAV TABS ===== */
   .nav {
     position: sticky;
     top: 0;
     z-index: 100;
     background: var(--card);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
     display: flex;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    border-bottom: 1px solid var(--border);
   }
   .nav::-webkit-scrollbar { display: none; }
   .nav-tab {
     flex: 1;
-    min-width: 80px;
-    padding: 14px 8px;
+    min-width: 72px;
+    padding: 14px 6px;
     text-align: center;
     font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    border-bottom: 3px solid transparent;
+    border-bottom: 2px solid transparent;
     transition: all 0.2s;
     color: var(--muted);
     white-space: nowrap;
   }
   .nav-tab:hover { color: var(--text); }
-  .nav-tab.active { color: var(--text); }
+  .nav-tab.active {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
   .nav-tab .tab-day { font-size: 11px; display: block; margin-bottom: 2px; }
   .nav-tab .tab-date { font-size: 10px; opacity: 0.6; }
-  
+
   /* ===== SECTIONS ===== */
   .container {
     max-width: 720px;
     margin: 0 auto;
     padding: 0 16px 100px;
   }
-  
+
   .day-section {
     display: none;
     animation: fadeIn 0.3s ease;
@@ -143,30 +150,36 @@
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  
+
   .day-header {
-    padding: 28px 0 16px;
+    padding: 32px 0 20px;
     text-align: center;
   }
   .day-header .day-badge {
     display: inline-block;
-    padding: 4px 16px;
-    border-radius: 20px;
+    padding: 4px 18px;
+    border-radius: 9999px;
     color: white;
     font-size: 12px;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-subtle);
   }
   .day-header h2 {
-    font-size: 22px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
     font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.1;
   }
   .day-header .day-theme {
-    font-size: 14px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 15px;
+    font-style: italic;
     color: var(--muted);
-    margin-top: 4px;
+    margin-top: 6px;
   }
-  
+
   /* ===== TIMELINE ===== */
   .timeline {
     position: relative;
@@ -181,139 +194,113 @@
     width: 2px;
     background: var(--border);
   }
-  
+
   .event {
     position: relative;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
   .event::before {
     content: '';
     position: absolute;
     left: -22px;
-    top: 18px;
+    top: 22px;
     width: 10px;
     height: 10px;
     border-radius: 50%;
     border: 2px solid;
     background: white;
   }
-  
+
   .event-card {
     background: var(--card);
-    border-radius: 14px;
-    padding: 16px 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: var(--shadow-inset);
     border-left: 4px solid;
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition: transform 0.15s;
   }
   .event-card:hover {
     transform: translateX(4px);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   }
-  
+
   .event-time {
     font-size: 12px;
     font-weight: 700;
-    opacity: 0.6;
+    opacity: 0.55;
     margin-bottom: 4px;
+    letter-spacing: 0.4px;
   }
   .event-title {
     font-size: 15px;
     font-weight: 700;
     margin-bottom: 4px;
+    line-height: 1.4;
   }
   .event-title a {
     color: inherit;
     text-decoration: none;
-    border-bottom: 1.5px dashed rgba(0,0,0,0.2);
+    border-bottom: 1.5px dashed rgba(51,51,51,0.2);
     transition: all 0.15s;
   }
   .event-title a:hover {
-    border-bottom-color: #4285f4;
-    color: #4285f4;
+    border-bottom-color: var(--ocean);
+    color: var(--ocean);
   }
   .event-title a::after {
     content: ' 📍';
     font-size: 12px;
     opacity: 0.5;
   }
-  .restaurant-name a {
-    color: inherit;
-    text-decoration: none;
-    border-bottom: 1.5px dashed rgba(0,0,0,0.15);
-    transition: all 0.15s;
-  }
-  .restaurant-name a:hover {
-    border-bottom-color: #4285f4;
-    color: #4285f4;
-  }
-  .restaurant-name a::after {
-    content: ' 📍';
-    font-size: 11px;
-    opacity: 0.4;
-  }
-  .coffee-name a {
-    color: inherit;
-    text-decoration: none;
-    border-bottom: 1.5px dashed rgba(0,0,0,0.15);
-    transition: all 0.15s;
-  }
-  .coffee-name a:hover {
-    border-bottom-color: #4285f4;
-    color: #4285f4;
-  }
-  .coffee-name a::after {
-    content: ' 📍';
-    font-size: 11px;
-    opacity: 0.4;
-  }
   .event-desc {
     font-size: 13px;
     color: var(--muted);
-    line-height: 1.5;
+    line-height: 1.6;
   }
   .event-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-top: 8px;
+    margin-top: 10px;
   }
   .tag {
     font-size: 11px;
-    padding: 2px 10px;
-    border-radius: 12px;
+    padding: 3px 14px;
+    border-radius: 9999px;
     font-weight: 500;
   }
-  .tag-coffee { background: #f0e6d3; color: #8B6914; }
-  .tag-food { background: #ffe8e8; color: #c0392b; }
-  .tag-sight { background: #e8f4fd; color: #2980b9; }
-  .tag-shop { background: #e8f8e8; color: #27ae60; }
-  .tag-transport { background: #f0f0f0; color: #636e72; }
-  .tag-warn { background: #fff3cd; color: #856404; }
-  .tag-hotel { background: #f3e5f5; color: #7b1fa2; }
-  
+  .tag-coffee { background: #f1d27a; color: #333333; }
+  .tag-food   { background: #d1796d; color: #ffffff; }
+  .tag-sight  { background: #23659f; color: #ffffff; }
+  .tag-shop   { background: #39aaa7; color: #ffffff; }
+  .tag-transport { background: #6a6966; color: #ffffff; }
+  .tag-warn   { background: #f1d27a; color: #333333; font-weight: 600; }
+  .tag-hotel  { background: #778899; color: #ffffff; }
+
   /* ===== INFO PANELS ===== */
   .info-section {
     display: none;
     animation: fadeIn 0.3s ease;
   }
   .info-section.active { display: block; }
-  
+
   .info-card {
     background: var(--card);
-    border-radius: 14px;
-    padding: 20px;
-    margin: 16px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-radius: 5px;
+    padding: 27px;
+    margin: 20px 0;
+    box-shadow: var(--shadow-inset);
   }
   .info-card h3 {
-    font-size: 16px;
-    margin-bottom: 12px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
     gap: 8px;
+    letter-spacing: -0.3px;
   }
-  
+
   .restaurant-row {
     display: flex;
     align-items: flex-start;
@@ -330,14 +317,29 @@
   }
   .restaurant-info { flex: 1; }
   .restaurant-name { font-weight: 700; font-size: 14px; }
+  .restaurant-name a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1.5px dashed rgba(51,51,51,0.15);
+    transition: all 0.15s;
+  }
+  .restaurant-name a:hover {
+    border-bottom-color: var(--ocean);
+    color: var(--ocean);
+  }
+  .restaurant-name a::after {
+    content: ' 📍';
+    font-size: 11px;
+    opacity: 0.4;
+  }
   .restaurant-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
   .restaurant-rating {
     font-size: 12px;
     font-weight: 700;
-    color: #e67e22;
+    color: var(--coral);
     flex-shrink: 0;
   }
-  
+
   .checklist-item {
     display: flex;
     align-items: flex-start;
@@ -347,22 +349,22 @@
   }
   .checklist-item input[type="checkbox"] {
     margin-top: 3px;
-    accent-color: #667eea;
+    accent-color: var(--text);
     transform: scale(1.1);
   }
-  
+
   .coffee-row {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--border);
   }
   .coffee-row:last-child { border-bottom: none; }
   .coffee-day {
     width: 48px;
     height: 48px;
-    border-radius: 12px;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -371,64 +373,105 @@
     font-size: 10px;
     font-weight: 700;
     flex-shrink: 0;
+    box-shadow: var(--shadow-subtle);
   }
   .coffee-day span { font-size: 14px; }
   .coffee-info { flex: 1; }
-  .coffee-name { font-weight: 700; font-size: 13px; }
-  .coffee-detail { font-size: 11px; color: var(--muted); }
-  
+  .coffee-name { font-weight: 700; font-size: 14px; }
+  .coffee-name a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1.5px dashed rgba(51,51,51,0.15);
+    transition: all 0.15s;
+  }
+  .coffee-name a:hover {
+    border-bottom-color: var(--ocean);
+    color: var(--ocean);
+  }
+  .coffee-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
   /* ===== FLIGHT CARD ===== */
   .flight-card {
-    background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+    background: var(--text);
     color: white;
-    border-radius: 16px;
-    padding: 20px;
-    margin: 16px 0;
+    border-radius: 5px;
+    padding: 27px;
+    margin: 20px 0;
+    box-shadow: var(--shadow-inset);
+  }
+  .flight-card > div:first-child {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    opacity: 0.7;
+    color: var(--accent);
+    letter-spacing: 0.4px;
   }
   .flight-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 14px 0;
   }
   .flight-row + .flight-row { border-top: 1px solid rgba(255,255,255,0.15); }
   .flight-city { text-align: center; }
-  .flight-code { font-size: 24px; font-weight: 700; }
+  .flight-code { font-size: 24px; font-weight: 700; color: var(--accent); }
   .flight-time { font-size: 12px; opacity: 0.7; }
   .flight-middle { text-align: center; flex: 1; }
-  .flight-number { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.15); padding: 2px 10px; border-radius: 10px; }
+  .flight-number {
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(241,210,122,0.2);
+    color: var(--accent);
+    padding: 3px 12px;
+    border-radius: 9999px;
+  }
   .flight-arrow { font-size: 12px; opacity: 0.5; margin: 4px 0; }
   .flight-duration { font-size: 10px; opacity: 0.5; }
-  
+
   /* ===== WEATHER ===== */
   .weather-card {
-    background: linear-gradient(135deg, #74b9ff 0%, #a29bfe 100%);
+    background: var(--ocean);
     color: white;
-    border-radius: 16px;
-    padding: 20px;
+    border-radius: 5px;
+    padding: 27px;
     text-align: center;
-    margin: 16px 0;
+    margin: 20px 0;
+    box-shadow: var(--shadow-inset);
   }
-  .weather-temp { font-size: 36px; font-weight: 700; }
-  .weather-desc { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .weather-card > div:first-child {
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0.85;
+    letter-spacing: 0.4px;
+  }
+  .weather-temp { font-size: 42px; font-weight: 700; margin-top: 4px; letter-spacing: -1px; }
+  .weather-desc { font-size: 14px; opacity: 0.85; margin-top: 6px; font-style: italic; }
   .weather-tips {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    margin-top: 12px;
-    font-size: 12px;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
   }
   .weather-tip {
     background: rgba(255,255,255,0.2);
-    padding: 4px 12px;
-    border-radius: 12px;
+    padding: 5px 14px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 500;
   }
-  
+
   /* ===== RESPONSIVE ===== */
   @media (max-width: 480px) {
-    .hero h1 { font-size: 22px; }
+    .hero { padding: 44px 20px 36px; }
+    .hero h1 { font-size: 26px; }
     .container { padding: 0 12px 80px; }
-    .event-card { padding: 14px; }
+    .event-card { padding: 16px; }
+    .info-card { padding: 20px; }
+    .flight-card { padding: 20px; }
+    .weather-card { padding: 20px; }
+    .weather-temp { font-size: 36px; }
   }
 </style>
 </head>
@@ -450,7 +493,7 @@
 
 <!-- NAV TABS -->
 <div class="nav" id="nav">
-  <div class="nav-tab active" data-target="day1" style="border-bottom-color: var(--day1)">
+  <div class="nav-tab active" data-target="day1">
     <span class="tab-day">Day 1</span>6/7 日<br><span class="tab-date">抵達</span>
   </div>
   <div class="nav-tab" data-target="day2">
@@ -541,7 +584,7 @@
 <!-- ==================== DAY 4 ==================== -->
 <div class="day-section" id="day4">
   <div class="day-header">
-    <span class="day-badge" style="background: var(--day4)">DAY 4</span>
+    <span class="day-badge" style="background: var(--day4); color: #333333;">DAY 4</span>
     <h2>城市綠洲 · 湖畔慢時光</h2>
     <div class="day-theme">6月10日（三）🎨</div>
   </div>
@@ -583,7 +626,7 @@
     <h2>🍽️ 餐廳清單</h2>
     <div class="day-theme">附 Tabelog 評分 · 預約建議</div>
   </div>
-  
+
   <div class="info-card">
     <h3>🔥 行程內餐廳</h3>
     <div class="restaurant-row"><div class="restaurant-emoji">🔥</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/ろばた百式+福岡+警固" target="_blank">Robata Hyakushiki（ろばた百式）</a></div><div class="restaurant-meta">Day 1 晚 · 居酒屋 · ⚠️ 每日 8 個 walk-in 位</div></div><div class="restaurant-rating">⭐ 3.65</div></div>
@@ -595,7 +638,7 @@
     <div class="restaurant-row"><div class="restaurant-emoji">🥐</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/DACOMECCA+ダコメッカ+博多" target="_blank">DACOMECCA（ダコメッカ）</a></div><div class="restaurant-meta">Day 5 早 · 人氣麵包 · 08:00 開店即到</div></div><div class="restaurant-rating">⭐ 3.66</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍜</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/牧のうどん+天神+福岡" target="_blank">牧のうどん</a></div><div class="restaurant-meta">Day 5 午 · 博多烏冬 · 免預約</div></div><div class="restaurant-rating">⭐ 3.45</div></div>
   </div>
-  
+
   <div class="info-card">
     <h3>🌟 備選替換餐廳</h3>
     <div class="restaurant-row"><div class="restaurant-emoji">🍲</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/水たき長野+福岡+中洲" target="_blank">水たき長野</a></div><div class="restaurant-meta">水炊鍋 · 創業 100 年 · 提前 1 個月電話預約</div></div><div class="restaurant-rating">⭐ T 3.73 / G 4.4</div></div>
@@ -628,14 +671,14 @@
   <!-- Day 1 & 4: Tenjin / Daimyo / Imaizumi -->
   <div class="info-card">
     <h3>📍 天神 · 大名 · 今泉（Day 1 & 4）</h3>
-    
+
     <div style="font-size:12px; font-weight:700; color:var(--day1); margin:12px 0 6px;">🍽️ 餐廳</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍢</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/ゆずの小町+天神大名+福岡" target="_blank">ゆずの小町 天神大名店</a></div><div class="restaurant-meta">柚子主題居酒屋 · 柚子鹽烤串超香 · 長濱市場鮮魚直送 · 100+ 酒無限暢飲</div></div><div class="restaurant-rating">⭐ T 3.10 / G 3.8</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🐟</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/海の路+天神+福岡" target="_blank">海の路 (Uminomichi)</a></div><div class="restaurant-meta">海鮮 × 日本酒專門 · 主廚每日親去漁港入貨 · 博多水炊鍋同內臟鍋都有</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.1</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🐔</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/とんこや+今泉+福岡" target="_blank">とんこや 今泉店 (Tonkoya)</a></div><div class="restaurant-meta">50 年老字號海鮮居酒屋 · 玄界灘鮮魚刺身 · 和牛內臟鍋 · 氣氛超放鬆</div></div><div class="restaurant-rating">⭐ T 3.30 / G 4.2</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍜</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/博多元氣一杯+福岡" target="_blank">博多元氣一杯 (Hakata Genki Ippai)</a></div><div class="restaurant-meta">傳奇拉麵！極濃郁奶油感豚骨湯底 · 福岡地道天花板</div></div><div class="restaurant-rating">⭐ T 3.75 / G 4.3</div></div>
-    
-    <div style="font-size:12px; font-weight:700; color:#e67e22; margin:16px 0 6px;">🍡 甜品 & 小食</div>
+
+    <div style="font-size:12px; font-weight:700; color:var(--coral); margin:16px 0 6px;">🍡 甜品 & 小食</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍩</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/I'm+donut?+福岡" target="_blank">I'm donut? 福岡店</a></div><div class="restaurant-meta">超人氣「生甜甜圈」· 天神中央公園旁 · 建議 09:30 前去</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.2</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍩</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/OLGA+le+bon+bon+donuts+博多" target="_blank">OLGA le bon bon donuts</a></div><div class="restaurant-meta">長崎發跡名店 · <strong>I'm donut? 嘅最佳備選</strong> · 位於櫛田神社前</div></div><div class="restaurant-rating">⭐ T 3.50 / G 4.3</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍰</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/ASAKO+IWAYANAGI+FUKUOKA" target="_blank">ASAKO IWAYANAGI FUKUOKA</a></div><div class="restaurant-meta">東京殿堂級芭菲名店 · 大名 Garden City 內 · 必試珠寶般嘅 Parfait</div></div><div class="restaurant-rating">⭐ T 3.33 / G 4.0</div></div>
@@ -649,27 +692,27 @@
   <!-- Day 2: Itoshima -->
   <div class="info-card">
     <h3>📍 糸島 Itoshima（Day 2）</h3>
-    
+
     <div style="font-size:12px; font-weight:700; color:var(--day2); margin:12px 0 6px;">🍽️ 餐廳</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍔</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/CxYJyx7bzQkgqiSy7" target="_blank">GooFy（芥屋漢堡）</a></div><div class="restaurant-meta">糸島名物漢堡 · 自家製包外酥內軟 · 位於芥屋海邊</div></div><div class="restaurant-rating">⭐ T 3.10 / G 4.3</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍕</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/dwmBkycFctWq2gvi7" target="_blank">TIME @ Ito Highland</a></div><div class="restaurant-meta">山頂全景 Cafe · 披薩同芭菲好食 · 邊食邊睇糸島全景</div></div><div class="restaurant-rating">⭐ T 3.25 / G 4.0</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🏖️</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/qUdyHpjVGZs4Thjt6" target="_blank">PALM BEACH</a></div><div class="restaurant-meta">海景餐廳綜合區 · 糸島風情一站式</div></div><div class="restaurant-rating">⭐ T 3.30 / G 3.8</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🐟</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/MS1N4Q73fVbJB9Da6" target="_blank">糸島食堂 本店</a></div><div class="restaurant-meta">新鮮海產食堂 · 本地人最愛 · 經常排隊</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.2</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍝</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://maps.app.goo.gl/RjajzDso4NwrJyQ7A" target="_blank">ウッチーノ食堂</a></div><div class="restaurant-meta">大量糸島食材 · 創意意式料理 · 遠離觀光區</div></div><div class="restaurant-rating">⭐ T 3.20 / G 4.1</div></div>
-    
-    <div style="font-size:12px; font-weight:700; color:#e67e22; margin:16px 0 6px;">🍡 甜品 & 小食</div>
+
+    <div style="font-size:12px; font-weight:700; color:var(--coral); margin:16px 0 6px;">🍡 甜品 & 小食</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🧂</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/またいちの塩+糸島" target="_blank">またいちの塩（花鹽布丁）</a></div><div class="restaurant-meta">已排入行程 · 海邊食花鹽布丁 · 超 chill</div></div><div class="restaurant-rating">⭐ T 3.52 / G 4.3</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍦</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/伊都きんぐ+糸島" target="_blank">伊都きんぐ（草莓大福）</a></div><div class="restaurant-meta">糸島產 Amaou 草莓大福 · 路過必買</div></div><div class="restaurant-rating">⭐ T 3.40 / G 4.1</div></div>
   </div>
-  
+
   <!-- Day 3: Yanagawa + Hakozaki -->
   <div class="info-card">
     <h3>📍 柳川 · 筥崎（Day 3）</h3>
-    
+
     <div style="font-size:12px; font-weight:700; color:var(--day3); margin:12px 0 6px;">🍽️ 餐廳</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍱</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/元祖本吉屋+柳川" target="_blank">元祖本吉屋（柳川）</a></div><div class="restaurant-meta">若松屋替代 · 柳川另一間鰻魚飯名店 · 假日建議預約</div></div><div class="restaurant-rating">⭐ T 3.65 / G 4.0</div></div>
-    
-    <div style="font-size:12px; font-weight:700; color:#e67e22; margin:16px 0 6px;">🍡 柳川名物小食</div>
+
+    <div style="font-size:12px; font-weight:700; color:var(--coral); margin:16px 0 6px;">🍡 柳川名物小食</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍡</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/柳川+よりみち+団子" target="_blank">柳川下船場附近丸子店</a></div><div class="restaurant-meta">遊船落船後必食 · 烤丸子（醬油味 / 紅豆味）· 路邊小店</div></div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍘</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/柳川+せんべい+土産" target="_blank">柳川煎餅 / 手信</a></div><div class="restaurant-meta">柳川特產 · 御花附近有幾間手信店</div></div></div>
   </div>
@@ -677,13 +720,13 @@
   <!-- Day 4: Ohori / Ropponmatsu / Yakuin -->
   <div class="info-card">
     <h3>📍 大濠 · 六本松 · 藥院（Day 4）</h3>
-    
+
     <div style="font-size:12px; font-weight:700; color:var(--day4); margin:12px 0 6px;">🍽️ 餐廳 & Cafe</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🥐</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Amam+Dacotan+六本松+福岡" target="_blank">Amam Dacotan（六本松）</a></div><div class="restaurant-meta">福岡人氣第一麵包店！ · 六本松站步行 3 分鐘</div></div><div class="restaurant-rating">⭐ T 3.75 / G 4.3</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">☕</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Coffee+Man+六本松+福岡" target="_blank">Coffee Man（六本松）</a></div><div class="restaurant-meta">世界烘豆冠軍 · 就喺 Amam Dacotan 對面</div></div><div class="restaurant-rating">⭐ T 3.45 / G 4.6</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🎂</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/パティスリー+ジョルジュマルソー+渡辺通+福岡" target="_blank">Patisserie Georges Marceau</a></div><div class="restaurant-meta">法日融合甜品 · 草莓蛋糕 + 開心果三角蛋糕</div></div><div class="restaurant-rating">⭐ T 3.60 / G 4.4</div></div>
-    
-    <div style="font-size:12px; font-weight:700; color:#e67e22; margin:16px 0 6px;">🍡 甜品 & 小食</div>
+
+    <div style="font-size:12px; font-weight:700; color:var(--coral); margin:16px 0 6px;">🍡 甜品 & 小食</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍰</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Patisserie+au+fil+du+jour+福岡" target="_blank">Pâtisserie au fil du jour</a></div><div class="restaurant-meta">福岡 Top 法式甜品（櫻坂） · 蒙布朗極出名</div></div><div class="restaurant-rating">⭐ T 3.86 / G 4.3</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">🍓</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Prince+of+the+Fruit+薬院+福岡" target="_blank">Prince of the Fruit（藥院）</a></div><div class="restaurant-meta">水果巴菲名店 · Amaou 草莓巴菲超靚 · 只收現金</div></div><div class="restaurant-rating">⭐ T 3.60 / G 4.1</div></div>
     <div class="restaurant-row"><div class="restaurant-emoji">☕</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/Cafe+Marugo+薬院+福岡" target="_blank">Cafe Marugo（藥院）</a></div><div class="restaurant-meta">木質調氛圍 · 巴斯克芝士蛋糕 + 手冲咖啡</div></div><div class="restaurant-rating">⭐ T 3.30 / G 4.5</div></div>
@@ -692,7 +735,7 @@
   <!-- Day 5: Hakata Station -->
   <div class="info-card">
     <h3>📍 博多站 · 天神（Day 5 出發前）</h3>
-    
+
     <div style="font-size:12px; font-weight:700; color:var(--day5); margin:12px 0 6px;">🥖 必食麵包（Pain Stock 備選）</div>
     <div class="restaurant-row"><div class="restaurant-emoji">🥖</div><div class="restaurant-info"><div class="restaurant-name"><a href="https://www.google.com/maps/search/THE+FULL+FULL+HAKATA+キャナルシティ" target="_blank">THE FULL FULL HAKATA</a></div><div class="restaurant-meta">明太法國包名店 · 如果 Day 4 冇去 Pain Stock 可補中</div></div><div class="restaurant-rating">⭐ T 3.30 / G 4.1</div></div>
 
@@ -734,9 +777,9 @@
     <h2>📋 旅行備忘</h2>
     <div class="day-theme">航班 · 天氣 · Checklist</div>
   </div>
-  
+
   <div class="flight-card">
-    <div style="font-size: 12px; font-weight: 600; margin-bottom: 8px; opacity: 0.7;">✈️ 航班資訊</div>
+    <div>✈️ 航班資訊</div>
     <div class="flight-row">
       <div class="flight-city"><div class="flight-code">HKG</div><div class="flight-time">11:00</div></div>
       <div class="flight-middle"><div class="flight-number">CX 588</div><div class="flight-arrow">───✈️──→</div><div class="flight-duration">約 3.5 小時</div></div>
@@ -748,7 +791,7 @@
       <div class="flight-city"><div class="flight-code">HKG</div><div class="flight-time">16:35</div></div>
     </div>
   </div>
-  
+
   <div class="weather-card">
     <div>☁️ 6 月福岡天氣</div>
     <div class="weather-temp">22°– 28°C</div>
@@ -759,7 +802,7 @@
       <span class="weather-tip">👟 舒適行路鞋</span>
     </div>
   </div>
-  
+
   <div class="info-card">
     <h3>📋 出行 Checklist</h3>
     <div class="checklist-item"><input type="checkbox"><span>護照有效期 6 個月以上</span></div>
@@ -776,7 +819,7 @@
     <div class="checklist-item"><input type="checkbox"><span>帶環保袋裝手信</span></div>
     <div class="checklist-item"><input type="checkbox"><span>Email 酒店 concierge 幫手訂餐廳</span></div>
   </div>
-  
+
   <div class="info-card">
     <h3>💰 實際開支紀錄</h3>
     <div class="restaurant-row"><div class="restaurant-emoji">✈️</div><div class="restaurant-info"><div class="restaurant-name">機票 (Flight Ticket)</div></div><div class="restaurant-rating">$1,770.00</div></div>
@@ -802,43 +845,28 @@
 const tabs = document.querySelectorAll('.nav-tab');
 const daySections = document.querySelectorAll('.day-section');
 const infoSections = document.querySelectorAll('.info-section');
-const dayColors = { day1: '#FF6B6B', day2: '#4ECDC4', day3: '#45B7D1', day4: '#96CEB4', day5: '#DDA0DD', restaurants: '#e67e22', nearby: '#e74c3c', coffee: '#8B6914', info: '#667eea' };
+const dayColors = { day1: '#d1796d', day2: '#23659f', day3: '#39aaa7', day4: '#f1d27a', day5: '#778899', restaurants: '#d1796d', nearby: '#d1796d', coffee: '#f1d27a', info: '#23659f' };
 
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     const target = tab.dataset.target;
-    
+
     // Update tabs
     tabs.forEach(t => {
       t.classList.remove('active');
-      t.style.borderBottomColor = 'transparent';
     });
     tab.classList.add('active');
-    tab.style.borderBottomColor = dayColors[target] || '#667eea';
-    
+
     // Show correct section
     daySections.forEach(s => s.classList.remove('active'));
     infoSections.forEach(s => s.classList.remove('active'));
-    
+
     const dayEl = document.getElementById(target);
     if (dayEl) dayEl.classList.add('active');
   });
 });
 
-// Set initial active tab color
-tabs[0].style.borderBottomColor = dayColors.day1;
-
 // Timeline dot colors
-document.querySelectorAll('.event').forEach(event => {
-  const card = event.querySelector('.event-card');
-  if (card) {
-    const color = card.style.borderLeftColor;
-    event.style.setProperty('--dot-color', color);
-    const before = event.querySelector('::before');
-  }
-});
-
-// Style timeline dots to match day color
 const style = document.createElement('style');
 let dotStyles = '';
 [['day1','--day1'],['day2','--day2'],['day3','--day3'],['day4','--day4'],['day5','--day5']].forEach(([id, v]) => {
@@ -847,5 +875,6 @@ let dotStyles = '';
 style.textContent = dotStyles;
 document.head.appendChild(style);
 </script>
+
 </body>
 </html>
